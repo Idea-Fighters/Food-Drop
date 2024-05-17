@@ -1,3 +1,5 @@
+# 떨어지는 과일을 먹으면 점수가 올라가고 목숨이 3개 있고 목숨이 0이 되면 게임종료됨 
+
 import pygame
 import random
 import time
