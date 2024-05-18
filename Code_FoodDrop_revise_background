@@ -1,0 +1,157 @@
+# Code_FoodDrop_revise의 코드를 바탕으로 작성되었습니다.
+# 화면의 배경을 설정하는 코드입니다. 
+
+# 예시로 이용한 사진입니다. 
+# ![background](https://github.com/Idea-Fighters/Food-Drop/assets/164449344/a023cfb0-122d-4648-9407-23b748c21dcc)
+
+
+!pip install pygame
+
+pip install --upgrade pip
+
+import pygame
+import random
+import sys
+
+pygame.init()
+
+# 색상 정의
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+# 화면 크기 설정
+size = (500, 600)
+screen = pygame.display.set_mode(size)
+
+# Pygame Clock 객체 생성
+clock = pygame.time.Clock()
+
+# 이미지 로드 및 크기 조정
+airplane = pygame.image.load('images/plane.png')
+airplane = pygame.transform.scale(airplane, (60, 45))
+apple = pygame.image.load('images/apple.png')
+apple = pygame.transform.scale(apple, (30, 30))
+bomb = pygame.image.load('images/bomb.png')
+bomb = pygame.transform.scale(bomb, (30, 30))
+heart = pygame.image.load('images/heart.png')
+heart = pygame.transform.scale(heart, (30, 30))
+
+# 배경 이미지 로드 및 크기 조정
+background = pygame.image.load('images/background.png')
+background = pygame.transform.scale(background, size)
+
+# 폰트 설정
+font = pygame.font.SysFont(None, 36)
+
+# 장애물 클래스 정의
+class Obstacle:
+    def __init__(self, x, y, image, speed):
+        self.x = x
+        self.y = y
+        self.image = image
+        self.speed = speed
+
+    def move(self):
+        self.y += self.speed
+
+    def draw(self):
+        screen.blit(self.image, (self.x, self.y))
+
+    def reset_pos(self):
+        self.x = random.randint(0, size[0] - self.image.get_width())
+        self.y = -self.image.get_height()
+        self.speed = random.randint(3, 6)
+
+# 게임 실행 함수 정의
+def runGame():
+    x = 20
+    y = size[1] - 45
+    speed = 5
+    score = 0
+    lives = 3
+    start_time = pygame.time.get_ticks()  # 게임 시작 시간
+
+    # 장애물 리스트 생성
+    obstacles = []
+    for i in range(5):
+        obstacle_type = random.choice([apple, bomb, heart])
+        obstacle = Obstacle(random.randint(0, size[0] - 30), -30, obstacle_type, random.randint(3, 6))
+        obstacles.append(obstacle)
+
+    done = False
+
+    while not done:
+        clock.tick(30)  # 초당 30 프레임으로 설정
+        screen.blit(background, (0, 0))  # 배경 이미지 그리기
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            x -= speed
+        if keys[pygame.K_RIGHT]:
+            x += speed
+
+        if x < 0:
+            x = 0
+        elif x > size[0] - 60:
+            x = size[0] - 60
+
+        # 현재 경과 시간 계산
+        current_time = pygame.time.get_ticks()
+        elapsed_time = (current_time - start_time) / 1000  # 밀리초를 초로 변환
+
+        if elapsed_time >= 180:  # 3분(180초)이 경과하면 게임 종료
+            done = True
+
+        # 장애물 이동 및 충돌 처리
+        for obstacle in obstacles:
+            obstacle.move()
+            if obstacle.y > size[1]:
+                obstacle.reset_pos()
+
+            if x < obstacle.x < x + 60 and y < obstacle.y < y + 45:
+                if obstacle.image == apple:
+                    score += 10
+                    obstacle.reset_pos()
+                elif obstacle.image == bomb:
+                    lives -= 1
+                    if lives == 0:
+                        done = True
+                    obstacle.reset_pos()
+                elif obstacle.image == heart:
+                    lives += 1
+                    obstacle.reset_pos()
+
+            obstacle.draw()
+
+        screen.blit(airplane, (x, y))
+
+        score_text = font.render(f'Score: {score}', True, BLACK)
+        screen.blit(score_text, (10, 10))
+
+        lives_text = font.render(f'Lives: {lives}', True, BLACK)
+        screen.blit(lives_text, (size[0] - 120, 40))
+
+        # 남은 시간 표시
+        time_remaining = font.render(f'Time Left: {180 - int(elapsed_time)}', True, BLACK)
+        screen.blit(time_remaining, (size[0] - 180, 10))
+
+        pygame.display.update()
+
+    show_game_over_screen(score)
+
+def show_game_over_screen(score):
+    screen.fill(WHITE)
+    game_over_text = font.render('Game Over', True, BLACK)
+    final_score_text = font.render(f'Final Score: {score}', True, BLACK)
+    screen.blit(game_over_text, (size[0] // 2 - game_over_text.get_width() // 2, size[1] // 2 - 50))
+    screen.blit(final_score_text, (size[0] // 2 - final_score_text.get_width() // 2, size[1] // 2 + 10))
+    pygame.display.update()
+    pygame.time.wait(3000)
+    pygame.quit()
+    sys.exit()
+
+runGame()
