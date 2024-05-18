@@ -1,10 +1,6 @@
 # Code_FoodDrop_revise의 코드를 바탕으로 작성되었습니다.
 # 화면의 배경을 설정하는 코드입니다. 
 
-# 예시로 이용한 사진입니다. 
-![background](https://github.com/Idea-Fighters/Food-Drop/assets/164449344/a023cfb0-122d-4648-9407-23b748c21dcc)
-
-
 !pip install pygame
 
 pip install --upgrade pip
