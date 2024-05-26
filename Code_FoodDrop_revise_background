@@ -117,8 +117,9 @@ def runGame():
                     if lives == 0:
                         done = True
                     obstacle.reset_pos()
-                elif obstacle.image == heart:
-                    lives += 1
+                elif obstacle.image == heart: # 하트 이미지와 충동할 때
+                    if lives < 3: # 목숨의 최대치를 3개까지로 조정
+                        lives += 1  # 목숨 +1
                     obstacle.reset_pos()
 
             obstacle.draw()
