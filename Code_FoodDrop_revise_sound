@@ -31,7 +31,7 @@ background = pygame.image.load('images/background.png')
 background = pygame.transform.scale(background, size)
 
 # 배경음악 사운드
-pygame.mixer.music.load('sounds/aaa.wav')
+pygame.mixer.music.load('sounds/Bg_music.wav')
 eat_apple = pygame.mixer.Sound('sounds/up.wav')
 hit_poop = pygame.mixer.Sound('sounds/poop.wav')
 
