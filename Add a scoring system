@@ -1,0 +1,49 @@
+# 점수 초기화
+score = 0
+font = pygame.font.Font(None, 36)
+
+# 게임 루프 내에 점수 업데이트 및 표시 추가
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # 키 입력 처리
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT] and player_x > 0:
+        player_x -= player_speed
+    if keys[pygame.K_RIGHT] and player_x < screen_width - player_width:
+        player_x += player_speed
+
+    # 음식 이동
+    food_y += food_speed
+    if food_y > screen_height:
+        food_y = -food_height
+        food_x = random.randint(0, screen_width - food_width)
+
+    # 충돌 감지
+    if (food_y + food_height > player_y and 
+        food_y < player_y + player_height and 
+        food_x + food_width > player_x and 
+        food_x < player_x + player_width):
+        food_y = -food_height
+        food_x = random.randint(0, screen_width - food_width)
+        score += 1  # 점수 증가
+
+    # 화면 업데이트
+    screen.fill(WHITE)
+    draw_player(player_x, player_y)
+    draw_food(food_x, food_y)
+
+    # 점수 표시
+    score_text = font.render(f"Score: {score}", True, BLACK)
+    screen.blit(score_text, (10, 10))
+
+    pygame.display.flip()
+
+    # 프레임 속도 설정
+    clock.tick(30)
+
+# Pygame 종료
+pygame.quit()
+
