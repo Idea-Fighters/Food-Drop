@@ -1,7 +1,0 @@
-# 플레이어 그리기 함수
-def draw_player(x, y):
-    pygame.draw.rect(screen, BLACK, [x, y, player_width, player_height])
-
-# 과일 그리기 함수
-def draw_fruit(x, y):
-    pygame.draw.ellipse(screen, RED, [x, y, fruit_width, fruit_height])
