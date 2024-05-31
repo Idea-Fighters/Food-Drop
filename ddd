@@ -1,9 +1,0 @@
-import math  # 제곱근을 구하기 위하여 math모듈을 읽음
-a =1
-b = 4
-c = 2
-D = b * b - 4 * a * c  # 판별식 b^2-4ac
-if D >= 0:
-  print('x=',(-b + math.sqrt(D)) / (2 * a),',',(-b - math.sqrt(D)) / (2 * a ))
-else:
-  print(' 해 없음')  # 6행의 조건이 만족되지 않는 경우 '해없음'이라고 표시
