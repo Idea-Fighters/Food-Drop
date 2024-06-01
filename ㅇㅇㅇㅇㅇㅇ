@@ -1,1 +1,0 @@
-paddle = pygame.Rect(400, 500,60, 10)
