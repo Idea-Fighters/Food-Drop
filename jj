@@ -1,2 +1,0 @@
-# Game screen settings
-screen = pygame.display.set_mode((800,600))
