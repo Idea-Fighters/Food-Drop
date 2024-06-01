@@ -1,0 +1,6 @@
+a=[1,2]
+b=input()
+a=[1,2,b]
+print(a[2])
+print(a[1])
+print(a[0])
