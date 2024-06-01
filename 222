@@ -1,4 +1,0 @@
-# set the ball
-ball = pygame.Rect(400, 300, 10, 10)
-ball_dx = 1
-ball_dy = 1
