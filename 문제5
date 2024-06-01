@@ -1,0 +1,3 @@
+a=float(input('LB? '))
+b=a*0.45
+print('%.1fLB is %.1fKG.'%(a,b))
