@@ -1,0 +1,21 @@
+import random
+
+com = random.choice(['가위', '바위', '보'])
+user = 0
+
+
+user = input("가위, 바위, 보 중 하나를 입력 (끝내려면 '종료' ):")
+
+com = random.choice(["가위", "바위", "보"])
+
+if user == '종료':
+    print('프로그램 종료\n')
+
+elif (user=='가위' and com=='보') or (user=='바위' and com =='가위') or(user=='보' and com=='바위') :
+    print('사용자 : '+user+', 컴퓨터 : '+com+', 사용자 승\n')
+elif (user=='가위' and com=='가위') or (user=='바위' and com =='바위') or(user=='보' and com=='보') :
+    print('사용자 : '+user+', 컴퓨터 : '+com+', 무승부\n')
+elif (user=='가위' and com=='바위') or (user=='바위' and com =='보') or(user=='보' and com=='가위') :
+    print('사용자 : '+user+', 컴퓨터 : '+com+', 컴퓨터 승\n')
+else:
+    print('다시 입력해 주세요.\n')
