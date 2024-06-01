@@ -1,0 +1,26 @@
+import random
+def numguess(try_cnt = 5, answer = random.randint(1, 100)):
+    while True:
+        if try_cnt == 0:
+            print("기회를 모두 소진하였습니다.\n 정답은 {}".format(answer))
+            break
+        your_input = input_answer()
+        
+        if answer == your_input:
+            print("정답!")
+            break
+        elif answer > your_input:
+            try_cnt -= 1
+            print("정답은 {}보다 큽니다.".format(your_input))
+        else:
+            try_cnt -= 1
+            print("정답은 {}보다 작습니다.".format(your_input))
+            
+def input_answer():            
+    try:
+        your_input = int(input("정답을 입력해주세요: "))
+        return your_input
+    except:
+        return input_answer()
+
+numguess()
