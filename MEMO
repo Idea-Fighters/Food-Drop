@@ -1,0 +1,17 @@
+def save_to_file(filename, content):
+    with open(filename, 'w') as file:
+        file.write(content)
+
+filename = input("저장할 파일 이름을 입력하세요 (예: memo.txt): ")
+print("메모할 내용을 입력하세요. 입력을 마치려면 'END'를 입력하세요.")
+
+content_lines = []
+while True:
+    line = input()
+    if line.upper() == 'END':
+        break
+    content_lines.append(line)
+
+content = '\n'.join(content_lines)
+save_to_file(filename, content)
+print(f"{filename} 파일에 내용이 저장되었습니다.")
