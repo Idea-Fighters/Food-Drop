@@ -1,0 +1,15 @@
+# 사용자로부터 숫자를 입력받음
+numb# 사용자로부터 숫자를 입력받음
+number = int(input("숫자를 입력하세요: "))
+
+# 입력한 숫자가 짝수인지 홀수인지 판별하여 출력
+if number % 2 == 0:
+    print(f"{number}는 짝수입니다.")
+else:
+    print(f"{number}는 홀수입니다.")er = int(input("숫자를 입력하세요: "))
+
+# 입력한 숫자가 짝수인지 홀수인지 판별하여 출력
+if number % 2 == 0:
+    print(f"{number}는 짝수입니다.")
+else:
+    print(f"{number}는 홀수입니다.")
