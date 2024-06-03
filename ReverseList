@@ -1,0 +1,19 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class ReverseList {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+        list.add("사과");
+        list.add("바나나");
+        list.add("체리");
+        list.add("포도");
+
+        System.out.println("원본 리스트: " + list);
+
+        Collections.reverse(list);
+
+        System.out.println("역순으로 된 리스트: " + list);
+    }
+}
