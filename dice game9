@@ -1,0 +1,25 @@
+
+import sys 
+sys.stdin = open("input.txt", "rt")
+
+n = int(input()) 
+res = 0
+arrMax = -21470000
+for i in range(n):
+    tmp = input().split() 
+    tmp.sort()
+    a,b,c = map(int, tmp)
+
+    if a == b and b == c: 
+        res = a*1000 + 10000 
+    elif a == b or a == c:
+        res = a*100 + 1000
+    elif b == c:
+        res = a*100 + 1000
+    else: 
+        res = c*100 
+    
+    if res > arrMax: 
+        arrMax = res 
+          
+print(arrMax)
