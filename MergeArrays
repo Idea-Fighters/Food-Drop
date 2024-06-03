@@ -1,0 +1,15 @@
+import java.util.Arrays;
+
+public class MergeArrays {
+    public static void main(String[] args) {
+        int[] arr1 = {1, 2, 3, 4, 5};
+        int[] arr2 = {6, 7, 8, 9, 10};
+
+        int[] mergedArray = merge(arr1, arr2);
+
+        System.out.println("병합된 배열: " + Arrays.toString(mergedArray));
+    }
+
+    public static int[] merge(int[] arr1, int[] arr2) {
+        int[] mergedArray = new int[arr1.length + arr2.length];
+        int i = 0, j
