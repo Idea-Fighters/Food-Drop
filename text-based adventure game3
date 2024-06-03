@@ -1,0 +1,42 @@
+import random
+print("당신의 이름을 선택하세요.")
+나 = input()
+
+기초체력 = 75
+방어력 = 0
+공격력 = 0
+
+전투력 =0
+정신력 =0
+운=0
+
+기=0
+도주=0
+
+while 1:
+	전투력 = random.randrange(5,11)
+	체력 = 기초체력 + 전투력 * 1
+	공격력 = 전투력
+	정신력 = random.randrange(1,6)
+	운 = random.randrange(1,6)
+	print(f"전투력 = [전투력], 국방력 = [정신력], 열외력 = [운]")
+	print("다시 하겠습니까: a = 네, b = 아니오")
+	A = input()
+	if A == "a":
+		continue
+	if A == "b":
+             print("\n 정말 결정하셨습니까? : a = 네, b = 아니오")
+		B = input()
+		if B==	 "b":
+			continue
+		elif B == "a":
+			print("\n 결정되었습니다.")
+			print(f """
+		[스테이터스]
+		이름 = {나}
+		직업 = 훈련병
+		체력 = {체력}
+		전투력 = {전투력}
+		국방력 = {정신력}
+		열외력 = {운} """)
+			break
