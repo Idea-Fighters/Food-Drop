@@ -1,0 +1,28 @@
+import java.util.Scanner;
+
+public class DigitCounter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("정수를 입력하세요: ");
+        int number = scanner.nextInt();
+
+        int digitCount = countDigits(number);
+
+        System.out.println("입력한 정수의 자릿수는 " + digitCount + "개 입니다.");
+
+        scanner.close();
+    }
+
+    public static int countDigits(int number) {
+        if (number == 0) {
+            return 1;
+        }
+        int count = 0;
+        while (number != 0) {
+            number = number / 10;
+            count++;
+        }
+        return count;
+    }
+}
