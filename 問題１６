@@ -1,0 +1,10 @@
+word =input()
+
+a = ""
+for i in word:
+     if i.isupper():
+          a += i.lower()
+     else:
+          a += i.upper()
+print(a)
+  
