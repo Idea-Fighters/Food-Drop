@@ -1,0 +1,18 @@
+import requests
+from bs4 import BeautifulSoup
+
+def get_page_title(url):
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        
+        soup = BeautifulSoup(response.content, 'html.parser')
+        title = soup.title.string
+        
+        return title
+    except requests.exceptions.RequestException as e:
+        return f"웹 페이지를 가져오는 데 실패했습니다: {e}"
+
+url = input("웹 페이지 URL을 입력하세요: ")
+title = get_page_title(url)
+print("웹 페이지 제목:", title)
