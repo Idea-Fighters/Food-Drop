@@ -1,0 +1,12 @@
+def count_square_roots(n):
+    if n < 0:
+        return 0  # Negative numbers do not have real square roots
+    elif n == 0:
+        return 1  # Zero has exactly one square root
+    else:
+        return 2  # Positive numbers have two square roots (positive and negative)
+
+# Example usage:
+numbers = [0, 4, -1, 16, 25]
+results = {num: count_square_roots(num) for num in numbers}
+results
