@@ -1,0 +1,9 @@
+a=int(input())
+b=int(input())
+c=int(input())
+d=a>b
+e=b>=c
+f=a<=b
+g=b<c
+print(d,e,f,g)
+
