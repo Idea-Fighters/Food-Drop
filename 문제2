@@ -1,5 +1,0 @@
-a=input()
-b=a[0:3]
-c=a[4:10]
-print(b)
-print(c)
