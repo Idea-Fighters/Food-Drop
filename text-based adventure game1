@@ -1,0 +1,34 @@
+def start_adventure():
+    print("당신은 숲 속에 있습니다. 동쪽으로 갈까요, 서쪽으로 갈까요?")
+    choice = input("선택하세요 (동/서): ")
+    if choice == '동':
+        east_path()
+    elif choice == '서':
+        west_path()
+    else:
+        print("잘못된 선택입니다.")
+        start_adventure()
+
+def east_path():
+    print("당신은 호수에 도착했습니다. 수영할까요, 돌아갈까요?")
+    choice = input("선택하세요 (수영/돌아가기): ")
+    if choice == '수영':
+        print("당신은 물속에서 보물을 찾았습니다! 게임 종료.")
+    elif choice == '돌아가기':
+        start_adventure()
+    else:
+        print("잘못된 선택입니다.")
+        east_path()
+
+def west_path():
+    print("당신은 동굴에 도착했습니다. 들어갈까요, 돌아갈까요?")
+    choice = input("선택하세요 (들어가기/돌아가기): ")
+    if choice == '들어가기':
+        print("당신은 괴물과 마주쳤습니다! 게임 종료.")
+    elif choice == '돌아가기':
+        start_adventure()
+    else:
+        print("잘못된 선택입니다.")
+        west_path()
+
+start_adventure()
