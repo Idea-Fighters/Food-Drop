@@ -1,0 +1,18 @@
+import random
+
+start = input('주사위를 던지려면 엔터를 누르세요: ')
+
+a = random.randrange(1,6)
+b = random.randrange(1,6)
+
+print(f"A의 주사위는 {a} 입니다. ")
+print(f"B의 주사위는 {b} 입니다. ")
+
+if a > b:
+    print('A가 이겼습니다.')
+    
+elif a == b:
+    print('비겼습니다.')
+    
+else:
+    print('B가 이겼습니다.')
