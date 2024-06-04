@@ -1,0 +1,55 @@
+import random   # random 모듈을 임포트하여 무작위 단어를 선택할 수 있습니다.
+
+ 
+#hangman(words, max_attempts) 함수는 행맨 게임을 실행하는 함수입니다.
+ 
+def hangman(words, max_attempts):
+ 
+    chosen_word = random.choice(words)
+ 
+    guessed_word = ["_"] * len(chosen_word)
+ 
+    attempts = 0    #attempts 변수는 플레이어가 시도한 횟수를 저장합니다.
+
+    while attempts < max_attempts:
+ 
+        print("현재 상태:", " ".join(guessed_word))
+ 
+        guess = input("알파벳 하나를 입력하세요: ").lower()
+
+ 
+        if len(guess) != 1 or not guess.isalpha():
+ 
+            print("잘못된 입력입니다. 알파벳 하나를 입력해주세요.")
+ 
+            continue
+
+        if guess in chosen_word:
+ 
+            for i, letter in enumerate(chosen_word):
+ 
+                if letter == guess:
+ 
+                    guessed_word[i] = guess
+ 
+        else:
+ 
+            attempts += 1
+
+        if "_" not in guessed_word:
+ 
+            print("축하합니다! 정답은 '{}'입니다.".format(chosen_word))
+ 
+            break
+ 
+    else:
+ 
+        print("기회를 모두 소진했습니다. 정답은 '{}'였습니다.".format(chosen_word))
+
+ 
+words = ["apple", "banana", "cherry", "grape", "lemon", "melon", "orange", "strawberry"]
+ 
+max_attempts = 6
+ 
+hangman(words, max_attempts)
+
