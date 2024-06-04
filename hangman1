@@ -1,0 +1,48 @@
+import random
+
+def hangman():
+    words = ['python', 'hangman', 'challenge', 'programming', 'computer']
+    word = random.choice(words)
+    guessed = "_" * len(word)
+    guessed_correctly = False
+    guessed_letters = []
+    attempts = 6
+
+    print("행맨 게임에 오신 것을 환영합니다!")
+    print("단어를 맞춰보세요.")
+    print(guessed)
+
+    while not guessed_correctly and attempts > 0:
+        guess = input("글자를 추측하세요: ").lower()
+        
+        if len(guess) == 1 and guess.isalpha():
+            if guess in guessed_letters:
+                print("이미 이 글자를 추측했습니다:", guess)
+            elif guess not in word:
+                print(guess, "는(은) 단어에 없습니다.")
+                attempts -= 1
+                guessed_letters.append(guess)
+            else:
+                print("잘했습니다!", guess, "는(은) 단어에 있습니다.")
+                guessed_letters.append(guess)
+                word_as_list = list(guessed)
+                indices = [i for i, letter in enumerate(word) if letter == guess]
+                for index in indices:
+                    word_as_list[index] = guess
+                guessed = "".join(word_as_list)
+                
+                if "_" not in guessed:
+                    guessed_correctly = True
+        else:
+            print("유효한 입력이 아닙니다. 한 글자만 입력하세요.")
+
+        print(guessed)
+        print(f"남은 기회: {attempts}")
+        print("추측한 글자들:", guessed_letters)
+
+    if guessed_correctly:
+        print("축하합니다! 단어를 맞추셨습니다:", word)
+    else:
+        print("기회를 모두 소진했습니다. 단어는:", word)
+
+hangman()
