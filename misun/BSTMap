@@ -1,0 +1,108 @@
+# BSTMap 클래스 정의
+class BSTMap:
+    def __init__(self):
+        self.root = None
+
+    def is_empty(self):
+        return self.root is None
+
+    def insert(self, name, phone):
+        new_node = BSTNode(name, phone)
+        if self.root is None:
+            self.root = new_node
+        else:
+            self._insert_recursive(self.root, new_node)
+
+    def _insert_recursive(self, current_node, new_node):
+        if new_node.key < current_node.key:
+            if current_node.left is None:
+                current_node.left = new_node
+            else:
+                self._insert_recursive(current_node.left, new_node)
+        elif new_node.key > current_node.key:
+            if current_node.right is None:
+                current_node.right = new_node
+            else:
+                self._insert_recursive(current_node.right, new_node)
+        else:
+            print("이미 존재하는 이름입니다.")
+
+    def search(self, name):
+        result = self._search_recursive(self.root, name)
+        if result:
+            print(f"{name}의 전화번호: {result.value}")
+        else:
+            print(f"{name} 등록되지 않은 친구입니다.")
+
+    def _search_recursive(self, current_node, name):
+        if current_node is None or current_node.key == name:
+            return current_node
+        if name < current_node.key:
+            return self._search_recursive(current_node.left, name)
+        else:
+            return self._search_recursive(current_node.right, name)
+
+    def delete(self, name):
+        self.root = self._delete_recursive(self.root, name)
+
+    def _delete_recursive(self, current_node, name):
+        if current_node is None:
+            return current_node
+        if name < current_node.key:
+            current_node.left = self._delete_recursive(current_node.left, name)
+        elif name > current_node.key:
+            current_node.right = self._delete_recursive(current_node.right, name)
+        else:
+            if current_node.left is None:
+                return current_node.right
+            elif current_node.right is None:
+                return current_node.left
+            temp = self._find_min(current_node.right)
+            current_node.key = temp.key
+            current_node.value = temp.value
+            current_node.right = self._delete_recursive(current_node.right, temp.key)
+        return current_node
+
+    def _find_min(self, node):
+        while node.left is not None:
+            node = node.left
+        return node
+
+    def display(self):
+        print("내 전화번호부")
+        self._inorder_traversal(self.root)
+        print()
+
+    def _inorder_traversal(self, node):
+        if node:
+            self._inorder_traversal(node.left)
+            print(f"---> {node.key} {node.value}")
+            self._inorder_traversal(node.right)
+
+# 메인 함수
+def main():
+    contacts = BSTMap()
+
+    while True:
+        command = input("삽입(i), 탐색(s), 삭제(d), 출력(p), 종료(q): ").strip().lower()
+
+        if command == 'i':
+            name = input("친구의 이름: ").strip()
+            phone = input("친구의 전화번호: ").strip()
+            contacts.insert(name, phone)
+        elif command == 's':
+            name = input("친구의 이름: ").strip()
+            contacts.search(name)
+        elif command == 'd':
+            name = input("친구의 이름: ").strip()
+            contacts.delete(name)
+        elif command == 'p':
+            contacts.display()
+        elif command == 'q':
+            print("프로그램을 종료합니다.")
+            break
+        else:
+            print("올바른 명령을 입력하세요.")
+
+if __name__ == "__main__":
+    main()
