@@ -1,0 +1,71 @@
+import math
+import queue
+Board = []
+Allremoved = 1
+Allcard = {}
+Mincnt = math.inf
+D = ((-1,0),(1,0),(0,-1),(0,1))
+def oob(x,y):
+    return x<0 or x>3 or y<0 or y>3
+def bfs(removed, src, dst):
+    visited = [[False for _ in range(4)] for _ in range(4)]
+    q = queue.Queue()
+    q.put(src)
+    while q:
+        curr = q.get()
+        if curr[0] == dst[0] and curr[1] == dst[1]:
+            return curr[2]
+        
+        for i in range(4):
+            nr = curr[0] + D[i][0]
+            nc = curr[1] + D[i][1]
+            if oob(nr,nc): continue
+            if not visited[nr][nc]:
+                visited[nr][nc] = True
+                q.put((nr, nc, curr[2]+1))
+            
+            for j in range(2):
+                if (removed & 1 << Board[nr][nc]) == 0: break
+                if oob(nr+D[i][0],nc+D[i][1]): break
+                nr += D[i][0]
+                nc += D[i][1]
+            if not visited[nr][nc]:
+                visited[nr][nc] = True
+                q.put((nr, nc, curr[2]+1))
+    return math.inf
+
+def permutate(cnt, removed, src):
+    global Mincnt
+    if cnt >= Mincnt:
+        return
+    if removed == Allremoved:
+        Mincnt = min(Mincnt,cnt)
+        return
+    
+    for num, card in Allcard.items():
+        # 이미 제거 된 카드라면
+        if removed & 1 << num:
+            continue
+        one = bfs(removed, src, card[0]) + bfs(removed, card[0], card[1]) + 2
+        two = bfs(removed, src, card[1]) + bfs(removed, card[1], card[0]) + 2
+        
+        permutate(cnt+one, removed | 1<<num, card[1])
+        permutate(cnt+two, removed | 1<<num, card[0])
+        
+def solution(board, r, c):
+    global Board, Allremoved, Allcard
+    Board = board
+    for i in range(4):
+        for j in range(4):
+            num = Board[i][j]
+            # 카드가 있는 경우
+            if num:
+                # 제거할 카드에 추가 비트연산
+                Allremoved |= 1 << num
+                # 현재 카드 딕셔너리에 있는지
+                if num in Allcard:
+                    Allcard[num].append((i,j,0))
+                else:
+                    Allcard[num] = [(i,j,0)]
+    permutate(0,1,(r,c,0))
+    return Mincnt
