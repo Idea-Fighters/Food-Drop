@@ -1,0 +1,62 @@
+def move_ctrl(y,x,dy,dx,b):
+    ny, nx = y+dy, x+dx
+    if (4>ny>=0) and (4>nx>=0) and (b[4*ny+nx]=='0'): # &로 And를 대체 할 경우 error 발생
+        return move_ctrl(ny,nx,dy,dx,b)
+    
+    elif (4>ny>=0) and (4>nx>=0) and (b[4*ny+nx]!='0'):
+        return (ny,nx)
+    else:
+        return (y,x)
+        
+def solution(board, r, c):
+    from collections import deque
+    import copy
+    
+    d=[(0,1),(0,-1),(-1,0),(1,0)]
+    b=''
+    cnt = 0
+    enter = -1
+    q = deque()    
+    answer=0
+    
+    for i in range(4):
+        for j in range(4):
+            b+=str(board[i][j])
+            
+    q.append((r,c,b,cnt,enter))
+    s=set()
+    
+    while q:
+        y,x,b,c,e=q.popleft()
+        pos = 4*y+x
+        
+        if (y,x,b,e) in s:
+            continue
+        s.add((y,x,b,e))
+
+        if b.count('0')==16:
+            return c
+        
+        #1칸씩 4방향 이동
+        for (dy,dx) in d:
+            ny,nx=y+dy,x+dx
+            if (4>ny>=0) and (4>nx>=0):
+                q.append((ny,nx,b,c+1,e))
+        
+        #ctrl 사용 4방향 이동
+        for (dy,dx) in d:
+            ny,nx = move_ctrl(y,x,dy,dx,b)
+            if (y==ny) and (x==nx):
+                continue
+            q.append((ny,nx,b,c+1,e))
+    
+        #enter누르기 
+        if b[pos] != 0:
+            if e == -1:
+                q.append((y,x,b,c+1,pos))
+            else :
+                if e!=pos and b[e]==b[pos]: #e: 신규 위치,pos: 이전 card위치
+                    b=b.replace(b[e],'0')
+                    q.append((y,x,b,c+1,-1))
+    return answer
+
