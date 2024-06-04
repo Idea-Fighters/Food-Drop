@@ -1,0 +1,37 @@
+
+import random
+정답리스트 = ['banana','apple','orange','grape','mango']
+누적입력알파벳 = ''
+정답 = random.choice(정답리스트)
+남은기회 = len(정답) * 2
+while(True):
+    print(f"남은 기회는 {남은기회}번 입니다.")
+    남은기회 -= 1
+    
+    if 남은기회 <= 0:
+        print("실패하셨습니다.")
+        break
+    
+    성공여부 = True
+    
+    print()
+    for 알파벳 in 정답:
+        if 알파벳 in 누적입력알파벳: 
+            print(알파벳, end=" ")
+        else:
+            print("_", end=" ")
+            성공여부 = False
+    
+    if 성공여부 == True:
+        print("정답을 맞추셨습니다.")
+        break
+    
+    while(1):
+        입력알파벳 = input("알파벳 하나만 입력해주세요 : ")
+        if len(입력알파벳) == 1:
+            break
+        else:
+            print("두 글자 이상 입력하셨습니다. 다시 입력해주세요.")
+    
+    if 입력알파벳 not in 누적입력알파벳:
+        누적입력알파벳 += 입력알파벳
