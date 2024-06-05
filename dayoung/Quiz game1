@@ -1,0 +1,27 @@
+def basic_quiz_game():
+    questions = [
+        "파이썬의 창시자는 누구인가요?",
+        "파이썬의 최신 버전은 무엇인가요?",
+        "파이썬에서 리스트를 만들려면 어떤 기호를 사용하나요?"
+    ]
+    answers = [
+        "귀도 반 로섬",
+        "3.10",
+        "대괄호"
+    ]
+
+    score = 0
+
+    for i in range(len(questions)):
+        print(questions[i])
+        answer = input("답변을 입력하세요: ").strip()
+
+        if answer.lower() == answers[i].lower():
+            print("정답입니다!")
+            score += 1
+        else:
+            print(f"틀렸습니다. 정답은 {answers[i]}입니다.")
+
+    print(f"퀴즈가 끝났습니다. 총 {len(questions)}문제 중 {score}문제를 맞추셨습니다.")
+
+basic_quiz_game()
