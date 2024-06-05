@@ -1,0 +1,31 @@
+import random
+
+def getHint(win):
+    ''' 단어로 초성 얻는 함수
+    '''
+    return "Hint"
+
+def selectTheme(theme):
+    if theme == 1:
+        return plants
+    elif theme == 2:
+        return animals
+
+plants = ['개나리', '진달래', '소나무']
+animals = ['고양이', '호랑이', '사자']
+
+theme = input("테마를 선택하세요 (식물:1, 동물:2)")
+
+items = selectTheme(theme)
+
+win = items[random.randrange(0,len(items))]
+
+hint = getHint(win)
+print("힌트는 " + hint + "입니다")
+
+answer = None
+
+while answer is not win:
+    answer = input("정답은?")
+
+print("축하합니다 정답을 맞췄습니다")
