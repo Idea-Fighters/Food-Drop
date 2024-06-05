@@ -1,0 +1,5 @@
+def a(aa):
+    return aa[::-1]
+
+aa =input()
+print(a(aa))
