@@ -1,0 +1,34 @@
+import random
+#랜덤함수를 사용하기 위한 라이브러리 import
+ 
+def question1():#아재재그 함수1
+    print("세상에서 가장 빠른 닭은?")
+    answer=str(input())
+    if(answer=="후다닭"):
+#만약 정답이라면 정답이라고 출력
+        print("정답입니다")
+    else:
+        print("오답입니다")
+ 
+def question2():
+    print("소금이 깜작 놀라면?")
+    answer=str(input())
+#만약 정답이라면 정답이라고 출력
+    if(answer=="이럴슈가"):
+        print("정답입니다")
+    else:
+        print("오답입니다.")
+ 
+for i in range(1,14):
+#1부터 14번 까지 14번 실행
+    a=random.randrange(1,10)
+    b=random.randrange(1,10)
+#a와 b는 1이상 10 미만의 수 중 임의의 수
+    print(a,"x",b,"=?")
+    answer=int(input())
+    if(answer==a*b):
+        print("정답입니다")
+    else: print("오답입니다. 정답은",a*b,"입니다")
+ 
+question1()
+question2()
