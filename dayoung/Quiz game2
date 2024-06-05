@@ -1,0 +1,22 @@
+def dictionary_quiz_game():
+    quiz = {
+        "파이썬의 창시자는 누구인가요?": "귀도 반 로섬",
+        "파이썬의 최신 버전은 무엇인가요?": "3.10",
+        "파이썬에서 리스트를 만들려면 어떤 기호를 사용하나요?": "대괄호"
+    }
+
+    score = 0
+
+    for question, correct_answer in quiz.items():
+        print(question)
+        answer = input("답변을 입력하세요: ").strip()
+
+        if answer.lower() == correct_answer.lower():
+            print("정답입니다!")
+            score += 1
+        else:
+            print(f"틀렸습니다. 정답은 {correct_answer}입니다.")
+
+    print(f"퀴즈가 끝났습니다. 총 {len(quiz)}문제 중 {score}문제를 맞추셨습니다.")
+
+dictionary_quiz_game()
