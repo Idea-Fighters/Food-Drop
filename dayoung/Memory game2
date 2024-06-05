@@ -1,0 +1,101 @@
+import random, pygame, sys, cx_Freeze
+from PIL import Image
+from pygame.locals import *
+from multiprocessing import Queue
+
+FPS = 30 # frames per second, the general speed of the program
+WINDOWWIDTH = 640 # size of window's width in pixels
+WINDOWHEIGHT = 480 # size of windows' height in pixels
+REVEALSPEED = 8 # speed boxes' sliding reveals and covers
+BOXSIZE = 60 # size of box height & width in pixels
+GAPSIZE = 10 # size of gap between boxes in pixels
+BOARDWIDTH = 4 # number of columns of icons
+BOARDHEIGHT = 4 # number of rows of icons
+assert (BOARDWIDTH * BOARDHEIGHT) % 2 == 0, 'Board needs to have an even number of boxes for pairs of matches.'
+XMARGIN = int((WINDOWWIDTH - (BOARDWIDTH * (BOXSIZE + GAPSIZE))) / 2)
+YMARGIN = int((WINDOWHEIGHT - (BOARDHEIGHT * (BOXSIZE + GAPSIZE))) / 2)
+
+pics = ['biber1', 'biber2','biber3','biber4', 'biber5', 'biber6', 'biber7', 'biber8']
+
+
+def main():
+    global FPSCLOCK, DISPLAYSURF
+    pygame.init()
+    pygame.mixer.init()
+    pygame.mixer.music.load("Brave Heart.wav")
+    pygame.mixer.music.play(-5,0.0)
+    FPSCLOCK = pygame.time.Clock()
+    DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH,WINDOWHEIGHT))
+
+    mousex = 0
+    mousey = 0 #마우스 이벤트 발생 좌표
+    pygame.display.set_caption('Working Biber')
+    pygame.display.set_icon(pygame.image.load('pic/0.png'))
+    mainBoard = getRandomizedBoard()
+    revealedBoxes = generateRevealedBoxesData(False)
+
+    firstSelection = None # 첫 클릭 좌표 저장
+    DISPLAYSURF.fill(BGCOLOR)
+    startGameAnimation(mainBoard)
+   
+    
+
+
+    while True: #game loof
+        mouseClicked = False
+
+        DISPLAYSURF.fill(BGCOLOR) # drow window
+        drawBoard(mainBoard, revealedBoxes)
+
+        for event in pygame.event.get(): #이벤트 처리 루프
+            if event.type == QUIT or (event.type ==KEYUP and event.key == K_ESCAPE):
+                pygame.quit()
+                sys.exit()
+            elif event.type == MOUSEMOTION:
+                mousex, mousey = event.pos
+            elif event.type == MOUSEBUTTONUP:
+                mousex, mousey = event.pos
+                mouseClicked = True
+
+        boxx, boxy = getBoxAtPixel(mousex, mousey)
+        if boxx != None and boxy != None:
+            # 마우스가 현재 박스 위에 있다.
+            if not revealedBoxes[boxx][boxy]: #닫힌 상자라면 하이라이트만!
+                drawHighlightBox(boxx,boxy)
+            if not revealedBoxes[boxx][boxy] and mouseClicked:
+                revealBoxesAnimation(mainBoard,[(boxx, boxy)])
+                revealedBoxes[boxx][boxy] = True #닫힌 상자+클릭-> 박스 열기
+                if firstSelection ==None : #1번 박스>좌표 기록
+                    firstSelection = (boxx, boxy)
+                else: #1번 박스 아님>2번 박스>짝검사
+                    icon1shape, icon1color = getPicAndNum(mainBoard, firstSelection[0], firstSelection[1])
+                    icon2shape, icon2color = getPicAndNum(mainBoard, boxx, boxy)
+                    if icon1shape !=icon2shape or icon1color != icon2color:
+                        #서로 다름이면 둘 다 닫기
+                        pygame.time.wait(1000) #1000 milliseconds = 1sec
+                        coverBoxesAnimation(mainBoard, [(firstSelection[0], firstSelection[1]), (boxx, boxy)])
+                        revealedBoxes[firstSelection[0]][firstSelection[1]]=False
+                        revealedBoxes[boxx][boxy] =False
+
+                    #짝이면
+                    elif hasWon(revealedBoxes):
+                       gameWonAnimation(mainBoard)
+                       pygame.time.wait(2000)
+
+                       #게임판 재설정
+                       mainBoard = getRandomizedBoard()
+                       revealedBoxes = generateRevealedBoxesData(False)
+
+                       #잠깐 공개
+                       drawBoard(mainBoard, revealedBoxes)
+                       pygame.display.update()
+                       pygame.time.wait(1000)
+
+                       #게임 시작
+                       startGameAnimation(mainBoard)
+                       pygame.mixer.music.play(-5,0.0)
+                    firstSelection = None #1번 박스 리셋
+
+                #화면을 다시 그린 다음 시간 지연을 기다린다..
+        pygame.display.update()
+        FPSCLOCK.tick(FPS)
