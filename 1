@@ -1,0 +1,45 @@
+import random
+
+def start_game():
+    print("Welcome to the Twist Game!")
+    print("You will try to guess the correct number between 1 and 100.")
+    print("But beware, there might be some twists along the way!")
+
+    target_number = random.randint(1, 100)
+    attempts = 0
+
+    while True:
+        guess = input("Enter your guess (or type 'quit' to exit): ")
+
+        if guess.lower() == 'quit':
+            print("Thanks for playing! Goodbye.")
+            break
+
+        if not guess.isdigit():
+            print("Please enter a valid number.")
+            continue
+
+        guess = int(guess)
+        attempts += 1
+
+        if attempts % 5 == 0:
+            twist_type = random.choice(['higher', 'lower'])
+            if twist_type == 'higher':
+                print("Twist! The number has increased by 10.")
+                target_number += 10
+                target_number = min(target_number, 100)  # Ensure it stays within bounds
+            else:
+                print("Twist! The number has decreased by 10.")
+                target_number -= 10
+                target_number = max(target_number, 1)  # Ensure it stays within bounds
+
+        if guess < target_number:
+            print("Too low!")
+        elif guess > target_number:
+            print("Too high!")
+        else:
+            print(f"Congratulations! You guessed the number {target_number} correctly in {attempts} attempts!")
+            break
+
+if __name__ == "__main__":
+    start_game()
