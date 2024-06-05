@@ -1,0 +1,54 @@
+question_data = [
+    {"text": "비만 오면 시끄럽게 나타나는 가장 빠른 개는", "answer": "번개"},
+    {"text": "어느 식당이든 다 키우고 있는 개는?", "answer": "이쑤시개" },
+    {"text": "개는 개인데 여러 색을 가진 개는?", "answer": "무지개"},
+    {"text": "우리가 잘 때 늘 옆에 있어 주는 개는?" , "answer": "베개"},
+    {"text": "개는 개인데 날아다니는 개는?", "answer": "솔개"},
+]
+
+
+class Quiz:
+  def __init__(self, text, answer):
+    self.text = text
+    self.answer = answer  
+    
+
+class Quiz_Brain:
+  def __init__(self, questions_list):
+    self.question_number = 0 
+    self.quiz_bank =questions_list
+    self.score = 0
+
+  def next_question(self):
+    current_question = self.quiz_bank[self.question_number]
+    self.question_number += 1
+    user_answer = input(f"Q.{self.question_number}: {current_question.text}?")
+    correct_answer = current_question.answer
+    self.check_answer(user_answer, correct_answer)
+
+  def still_has_question(self):
+    return self.question_number < len(self.quiz_bank)
+
+  def check_answer(self, user_answer, correct_answer):
+    if user_answer == correct_answer:
+      self.score += 1
+    else:
+      print(f"땡!! 정답은 {correct_answer}입니다.")
+    print(f"현재 점수는 {self.score} / {self.question_number}입니다.")
+
+
+quiz_bank= []
+for data in question_data:
+  data_text = data["text"]
+  data_answer= data["answer"]
+  quiz_bank.append(Quiz(data_text, data_answer))
+#print(quiz_bank)
+
+quiz_brain = Quiz_Brain(quiz_bank)
+
+while quiz_brain.still_has_question():
+  quiz_brain.next_question()
+  print()
+
+print(f"모든 문제를 풀었습니다. 최종 점수는 {quiz_brain.score} / {quiz_brain.question_number}입니다.")
+
