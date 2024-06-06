@@ -1,0 +1,31 @@
+def count_word_frequency(file_path):
+    word_frequency = {}
+
+    # 파일 열기
+    with open(file_path, 'r') as file:
+        # 파일 내용 읽기
+        content = file.read()
+        # 모든 특수문자를 공백으로 대체
+        content = ''.join(char if char.isalnum() else ' ' for char in content)
+        # 공백을 기준으로 단어 분리
+        words = content.split()
+
+        # 단어 빈도수 계산
+        for word in words:
+            word = word.lower()  # 대소문자 구분 없이 빈도수 계산
+            if word in word_frequency:
+                word_frequency[word] += 1
+            else:
+                word_frequency[word] = 1
+
+    return word_frequency
+
+file_path = input("파일 경로를 입력하세요: ")
+
+try:
+    word_frequency = count_word_frequency(file_path)
+    print("\n단어 빈도수:")
+    for word, frequency in word_frequency.items():
+        print(f"{word}: {frequency}")
+except FileNotFoundError:
+    print("파일을 찾을 수 없습니다.")
