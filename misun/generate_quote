@@ -1,0 +1,14 @@
+import random
+
+def generate_quote():
+    quotes = [
+        "성공의 비결은 모방에서 시작된다. 그리고 열정, 열정, 열정으로 끝난다. - Ralph Waldo Emerson",
+        "인생은 마라톤이 아니라 스프린트다. - Unknown",
+        "오늘 당신이 할 수 있는 최선을 다하십시오. - H. Jackson Brown Jr.",
+        "성공은 준비된 사람과 기회가 만나는 것이다. - Seneca",
+        "목표를 세우고 행동하라. 목표 없는 행동은 방황이다. - Unknown"
+    ]
+    return random.choice(quotes)
+
+print("오늘의 명언:")
+print(generate_quote())
