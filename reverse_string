@@ -1,6 +1,0 @@
-def reverse_string(input_string):
-    return input_string[::-1]
-
-user_input = input("문자열을 입력하세요: ")
-reversed_string = reverse_string(user_input)
-print("뒤집힌 문자열:", reversed_string)
