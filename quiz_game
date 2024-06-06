@@ -1,0 +1,20 @@
+def quiz_game():
+    questions = {
+        "파이썬의 창시자는 누구인가?": "귀도 반 로섬",
+        "HTML은 무엇의 약자인가?": "하이퍼텍스트 마크업 언어",
+        "CPU는 무엇의 약자인가?": "중앙 처리 장치",
+        "WWW는 무엇의 약자인가?": "월드 와이드 웹",
+        "TCP/IP는 무엇의 약자인가?": "전송 제어 프로토콜/인터넷 프로토콜"
+    }
+
+    score = 0
+
+    for question, answer in questions.items():
+        user_answer = input(question + "\n답: ")
+        if user_answer.lower() == answer.lower():
+            print("정답입니다!")
+            score += 1
+        else:
+            print("오답입니다. 정답은 {}입니다.".format(answer))
+
+    pri
