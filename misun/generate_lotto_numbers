@@ -1,0 +1,7 @@
+import random
+
+def generate_lotto_numbers():
+    return random.sample(range(1, 46), 6)
+
+lotto_numbers = generate_lotto_numbers()
+print("로또 번호:", lotto_numbers)
