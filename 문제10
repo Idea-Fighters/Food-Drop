@@ -1,4 +1,0 @@
-s1 = input().rstrip() 
-s2 = input().rstrip() 
-
-print(s1 + ' ' + s2) 
