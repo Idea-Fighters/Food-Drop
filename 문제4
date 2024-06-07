@@ -1,9 +1,0 @@
-first_line = input().split()
-second_line = input().split()
-
-list_1 = [int(first_line[0])] * int(first_line[1])
-list_2 = [int(second_line[0])] * int(second_line[1])
-
-result_list = list_1 + list_2
-
-print(result_list)
