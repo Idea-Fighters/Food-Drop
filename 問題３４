@@ -1,5 +1,0 @@
-n =input()
-
-a =n + "??!"
-
-print(a)
