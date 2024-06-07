@@ -1,0 +1,38 @@
+import random
+
+def load_capitals():
+    capitals = {
+        "Afghanistan": "Kabul",
+        "Albania": "Tirana",
+        "Algeria": "Algiers",
+        "Andorra": "Andorra la Vella",
+        "Angola": "Luanda",
+        # 다른 나라와 수도를 계속 추가할 수 있습니다.
+    }
+    return capitals
+
+def quiz_capitals():
+    capitals = load_capitals()
+    countries = list(capitals.keys())
+
+    print("Welcome to the Country Capitals Quiz!")
+
+    score = 0
+    total_questions = 5
+
+    for _ in range(total_questions):
+        country = random.choice(countries)
+        capital = capitals[country]
+
+        print(f"What is the capital of {country}?")
+        user_answer = input("Your answer: ")
+
+        if user_answer.lower() == capital.lower():
+            print("Correct!")
+            score += 1
+        else:
+            print(f"Wrong! The correct answer is {capital}.")
+
+    print(f"Quiz finished! Your total score is {score}/{total_questions}")
+
+quiz_capitals()
