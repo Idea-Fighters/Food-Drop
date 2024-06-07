@@ -1,0 +1,31 @@
+import random
+
+def user_vs_computer_odd_even_game():
+    user_score = 0
+    computer_score = 0
+    rounds = 5
+
+    for _ in range(rounds):
+        number = random.randint(1, 100)
+        print("숫자가 홀수인지 짝수인지 맞춰보세요!")
+        user_guess = input("홀수 또는 짝수를 입력하세요: ")
+
+        computer_guess = "홀수" if random.randint(0, 1) == 0 else "짝수"
+
+        if (number % 2 == 0 and user_guess == "짝수") or (number % 2 != 0 and user_guess == "홀수"):
+            print(f"사용자 정답! 숫자는 {number}였습니다.")
+            user_score += 1
+        else:
+            print(f"사용자 틀렸습니다. 숫자는 {number}였습니다.")
+
+        if (number % 2 == 0 and computer_guess == "짝수") or (number % 2 != 0 and computer_guess == "홀수"):
+            print(f"컴퓨터 정답! 숫자는 {number}였습니다.")
+            computer_score += 1
+        else:
+            print(f"컴퓨터 틀렸습니다. 숫자는 {number}였습니다.")
+
+        print(f"현재 점수 - 사용자: {user_score}, 컴퓨터: {computer_score}")
+
+    print(f"게임 종료! 최종 점수 - 사용자: {user_score}, 컴퓨터: {computer_score}")
+
+user_vs_computer_odd_even_game()
