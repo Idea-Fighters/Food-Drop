@@ -1,0 +1,53 @@
+import random
+
+def choose_word():
+    words = ["apple", "banana", "orange", "grape", "strawberry", "pineapple", "watermelon"]
+    return random.choice(words)
+
+def display_word(word, guessed_letters):
+    display = ""
+    for letter in word:
+        if letter in guessed_letters:
+            display += letter
+        else:
+            display += "_"
+    return display
+
+def guess_letter(word, guessed_letters):
+    while True:
+        guess = input("\nGuess a letter: ").lower()
+        if len(guess) != 1:
+            print("Please enter only one letter.")
+        elif not guess.isalpha():
+            print("Please enter a valid letter.")
+        elif guess in guessed_letters:
+            print("You've already guessed that letter.")
+        else:
+            return guess
+
+def play_word_guessing_game():
+    print("Welcome to the Word Guessing Game!")
+    target_word = choose_word()
+    guessed_letters = set()
+    attempts = 0
+
+    while True:
+        display = display_word(target_word, guessed_letters)
+        print("\nCurrent word:", display)
+
+        if display == target_word:
+            print("Congratulations! You've guessed the word!")
+            break
+
+        guess = guess_letter(target_word, guessed_letters)
+        guessed_letters.add(guess)
+
+        if guess not in target_word:
+            attempts += 1
+            print("Incorrect guess! Try again.")
+
+        if attempts == 6:
+            print("You've run out of attempts! The word was:", target_word)
+            break
+
+play_word_guessing_ga
