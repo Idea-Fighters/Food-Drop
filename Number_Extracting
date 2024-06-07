@@ -1,9 +1,0 @@
-public class Sample {
-  public static void main(String[] args) {
-    String pin = "881120-1068234";
-    System.out.println(pin.charAt(7));
-  }
-}
-
-결과:
-1
