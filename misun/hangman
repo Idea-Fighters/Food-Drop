@@ -1,0 +1,52 @@
+import random
+
+def hangman():
+    # 단어 목록
+    words = ["python", "hangman", "computer", "programming", "game", "word"]
+
+    # 무작위로 단어 선택
+    word = random.choice(words)
+
+    # 사용자에게 보여줄 현재 상태 초기화
+    guessed_word = "_" * len(word)
+    guessed_word_list = list(guessed_word)
+    guessed_letters = []
+
+    # 사용자에게 보여주기
+    print("Welcome to Hangman!")
+    print(" ".join(guessed_word_list))
+
+    # 게임 루프
+    attempts = 6
+    while attempts > 0:
+        guess = input("Guess a letter: ").lower()
+
+        # 이미 추측한 글자인지 확인
+        if guess in guessed_letters:
+            print("You've already guessed that letter.")
+            continue
+
+        # 추측한 글자가 정답에 있는지 확인
+        if guess in word:
+            for i in range(len(word)):
+                if word[i] == guess:
+                    guessed_word_list[i] = guess
+            print("Correct!")
+            print(" ".join(guessed_word_list))
+        else:
+            print("Wrong guess!")
+            attempts -= 1
+            print(f"Attempts left: {attempts}")
+            if attempts == 0:
+                print("Game Over! The word was:", word)
+                break
+
+        # 추측한 글자를 기록에 추가
+        guessed_letters.append(guess)
+
+        # 정답을 모두 맞추었는지 확인
+        if "".join(guessed_word_list) == word:
+            print("Congratulations! You guessed the word!")
+            break
+
+hangman()
