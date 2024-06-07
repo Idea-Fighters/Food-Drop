@@ -1,0 +1,39 @@
+import random
+
+def roll_dice():
+    return random.randint(1, 6)
+
+def main():
+    print("Welcome to the Dice Rolling Simulator!")
+    while True:
+        roll_again = input("Roll the dice? (yes/no): ").strip().lower()
+        if roll_again == 'yes':
+            dice1 = roll_dice()
+            dice2 = roll_dice()
+            total = dice1 + dice2
+            print(f"Dice rolled: {dice1} and {dice2}")
+            print(f"Total: {total}")
+            print_dice(dice1, dice2)
+        elif roll_again == 'no':
+            print("Thanks for playing!")
+            break
+        else:
+            print("Invalid input. Please type 'yes' or 'no'.")
+
+def print_dice(dice1, dice2):
+    dice_art = {
+        1: ("+-------+", "|       |", "|   o   |", "|       |", "+-------+"),
+        2: ("+-------+", "| o     |", "|       |", "|     o |", "+-------+"),
+        3: ("+-------+", "| o     |", "|   o   |", "|     o |", "+-------+"),
+        4: ("+-------+", "| o   o |", "|       |", "| o   o |", "+-------+"),
+        5: ("+-------+", "| o   o |", "|   o   |", "| o   o |", "+-------+"),
+        6: ("+-------+", "| o   o |", "| o   o |", "| o   o |", "+-------+"),
+    }
+    dice1_art = dice_art[dice1]
+    dice2_art = dice_art[dice2]
+    
+    for line1, line2 in zip(dice1_art, dice2_art):
+        print(line1, " ", line2)
+
+if __name__ == "__main__":
+    main()
