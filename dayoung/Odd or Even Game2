@@ -1,0 +1,20 @@
+import random
+
+def scored_odd_even_game():
+    score = 0
+    attempts = 5
+
+    for _ in range(attempts):
+        number = random.randint(1, 100)
+        print("숫자가 홀수인지 짝수인지 맞춰보세요!")
+        guess = input("홀수 또는 짝수를 입력하세요: ")
+
+        if (number % 2 == 0 and guess == "짝수") or (number % 2 != 0 and guess == "홀수"):
+            print(f"정답입니다! 숫자는 {number}였습니다.")
+            score += 1
+        else:
+            print(f"틀렸습니다. 숫자는 {number}였습니다.")
+
+    print(f"게임 종료! 총 {attempts}회 중 {score}회 맞추셨습니다.")
+
+scored_odd_even_game()
