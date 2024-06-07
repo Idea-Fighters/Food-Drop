@@ -1,0 +1,52 @@
+import random
+
+class Card:
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
+class Deck:
+    def __init__(self):
+        self.cards = []
+        self.generate_deck()
+
+    def generate_deck(self):
+        food_names = ["Pizza", "Burger", "Sushi", "Pasta", "Salad", "Taco", "Steak", "Ice Cream", "Sushi", "Curry"]
+        food_values = [random.randint(1, 10) for _ in range(len(food_names))]
+        self.cards = [Card(name, value) for name, value in zip(food_names, food_values)]
+
+    def draw_card(self):
+        if self.cards:
+            return self.cards.pop()
+        else:
+            return None
+
+def food_card_game():
+    print("Welcome to the Food Card Showdown!")
+    player1_deck = Deck()
+    player2_deck = Deck()
+
+    player1_score = 0
+    player2_score = 0
+
+    for _ in range(5):
+        player1_card = player1_deck.draw_card()
+        player2_card = player2_deck.draw_card()
+
+        print("\nPlayer 1 drew:", player1_card.name, "(Value:", player1_card.value, ")")
+        print("Player 2 drew:", player2_card.name, "(Value:", player2_card.value, ")")
+
+        if player1_card.value > player2_card.value:
+            print("Player 1 wins this round!")
+            player1_score += 1
+        elif player1_card.value < player2_card.value:
+            print("Player 2 wins this round!")
+            player2_score += 1
+        else:
+            print("It's a tie!")
+
+    print("\nGame Over!")
+    print("Player 1's score:", player1_score)
+    print("Player 2's score:", player2_score)
+
+food_card_game()
