@@ -1,0 +1,78 @@
+import tkinter as tk
+from tkinter import messagebox
+
+def add():
+    try:
+        num1 = float(entry1.get())
+        num2 = float(entry2.get())
+        result = num1 + num2
+        label_result.config(text=f"결과: {result}")
+    except ValueError:
+        messagebox.showerror("입력 오류", "유효한 숫자를 입력하세요.")
+
+def subtract():
+    try:
+        num1 = float(entry1.get())
+        num2 = float(entry2.get())
+        result = num1 - num2
+        label_result.config(text=f"결과: {result}")
+    except ValueError:
+        messagebox.showerror("입력 오류", "유효한 숫자를 입력하세요.")
+
+def multiply():
+    try:
+        num1 = float(entry1.get())
+        num2 = float(entry2.get())
+        result = num1 * num2
+        label_result.config(text=f"결과: {result}")
+    except ValueError:
+        messagebox.showerror("입력 오류", "유효한 숫자를 입력하세요.")
+
+def divide():
+    try:
+        num1 = float(entry1.get())
+        num2 = float(entry2.get())
+        if num2 == 0:
+            messagebox.showerror("수학 오류", "0으로 나눌 수 없습니다.")
+        else:
+            result = num1 / num2
+            label_result.config(text=f"결과: {result}")
+    except ValueError:
+        messagebox.showerror("입력 오류", "유효한 숫자를 입력하세요.")
+
+# 메인 윈도우 생성
+root = tk.Tk()
+root.title("간단한 계산기")
+
+# 입력 필드와 레이블 생성
+label1 = tk.Label(root, text="첫 번째 숫자:")
+label1.pack()
+
+entry1 = tk.Entry(root)
+entry1.pack()
+
+label2 = tk.Label(root, text="두 번째 숫자:")
+label2.pack()
+
+entry2 = tk.Entry(root)
+entry2.pack()
+
+# 버튼 생성
+button_add = tk.Button(root, text="덧셈", command=add)
+button_add.pack()
+
+button_subtract = tk.Button(root, text="뺄셈", command=subtract)
+button_subtract.pack()
+
+button_multiply = tk.Button(root, text="곱셈", command=multiply)
+button_multiply.pack()
+
+button_divide = tk.Button(root, text="나눗셈", command=divide)
+button_divide.pack()
+
+# 결과 레이블 생성
+label_result = tk.Label(root, text="결과: ")
+label_result.pack()
+
+# 메인 루프 실행
+root.mainloop()
