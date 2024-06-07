@@ -1,9 +1,0 @@
-jaehwan_aah = input()
-doctor_aah = input()
-
-# 만약 재환이가 낼 수 있는 "aah"의 길이가 의사가 요구하는 길이보다 길거나 같다면 "go"를 출력한다.
-# 그렇지 않으면 "no"를 출력한다.
-if len(jaehwan_aah) >= len(doctor_aah):
-    print("go")
-else:
-    print("no")
