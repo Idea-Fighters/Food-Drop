@@ -1,0 +1,43 @@
+import random
+
+
+#컴퓨터가 1~100 중 하나의 정수를 랜덤하게 생성하여 반환하는 사용자 정의 함수
+#(함수 유형 : 매개변수가 없고 반환값이 있는 함수, 컴퓨터 생성 숫자 : random 모듈 사용)
+def computer():
+    return random.randint(1,100)
+    
+# 컴퓨터가 생성한 정수의 홀수 짝수와 사용자가 입력한 정수의 홀수/짝수가 같은지를 비교하여 메시지를 반환하는 사용자 정의 함수를 작성하시오.(함수 유형 : 매개변수가 있고 반환값이 있는 함수)
+def compareoddeven(a,b):
+    return a % 2 == b % 2 #같으면 True 틀리면 False
+
+ 
+#전체 횟수와 승리한 횟수로 승률을 계산하여 반환하는 사용자 정의 함수를 작성하시오. (함수 유형 : 매개변수가 있고 반환값이 있는 함수)
+def winrate(win,total):
+    return win/total*100
+
+
+
+print('\n<홀수/짝수 게임>')
+print('컴퓨터가 1~100 중 하나의 정수를 생성하였습니다.')
+
+win = 0
+total = 0
+
+# 무한반복문을 사용하고 사용자에게 정수형으로 숫자를 입력받으시오
+
+while True:
+    com = computer()
+    user = int(input('\n홀수[1]/짝수[2] 선택 (종료:0) => '))
+    if user == 0 :
+        # 승률은 소수점 둘째자리까지 표현
+        print('\n>>> %d회 중 %d 번 승리(승률: %.2f%%)'%(total,win,winrate(win,total)))
+        break
+        
+    total += 1
+
+    if compareoddeven(com,user):
+        win += 1
+        print('\n<%d회> 정답~ 짝짝짝 (컴퓨터 생성 숫자:%d)'%(total,com))
+    else:
+        print('\n<%d회> 틀렸습니다. (컴퓨터 생성 숫자:%d)'%(total,com)) 
+
