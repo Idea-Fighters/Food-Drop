@@ -1,0 +1,55 @@
+import random
+
+def initialize_board(size, num_mines):
+    board = [[' ' for _ in range(size)] for _ in range(size)]
+    mines = set()
+
+    while len(mines) < num_mines:
+        row = random.randint(0, size - 1)
+        col = random.randint(0, size - 1)
+        mines.add((row, col))
+        board[row][col] = '*'
+
+    return board
+
+def count_adjacent_mines(board, row, col):
+    count = 0
+    for r in range(max(0, row - 1), min(len(board), row + 2)):
+        for c in range(max(0, col - 1), min(len(board[0]), col + 2)):
+            if (r, c) != (row, col) and board[r][c] == '*':
+                count += 1
+    return count
+
+def reveal(board, row, col):
+    if board[row][col] == ' ':
+        count = count_adjacent_mines(board, row, col)
+        board[row][col] = str(count) if count > 0 else '-'
+        if count == 0:
+            for r in range(max(0, row - 1), min(len(board), row + 2)):
+                for c in range(max(0, col - 1), min(len(board[0]), col + 2)):
+                    if board[r][c] == ' ':
+                        reveal(board, r, c)
+
+def print_board(board):
+    for row in board:
+        print(' '.join(row))
+
+def mine_sweeper(size=5, num_mines=5):
+    print("Welcome to Mine Sweeper!")
+    print("Unrevealed cells are represented by '-'.")
+    print("Mines are represented by '*'.")
+
+    board = initialize_board(size, num_mines)
+
+    while True:
+        print_board(board)
+        row = int(input("Enter row: "))
+        col = int(input("Enter column: "))
+
+        if (row, col) in mines:
+            print("Game Over! You stepped on a mine!")
+            break
+
+        reveal(board, row, col)
+
+mine_sweeper()
