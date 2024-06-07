@@ -1,0 +1,27 @@
+def shopping_game():
+    print("Welcome to the Supermarket Shopping Game!")
+    items = {"apple": 2, "banana": 1, "milk": 3, "bread": 2.5, "cheese": 4}
+
+    total_cost = 0
+
+    while True:
+        print("\nAvailable items:")
+        for item, price in items.items():
+            print(f"{item.capitalize()}: ${price}")
+
+        item = input("\nEnter item name (or 'done' to finish shopping): ").lower()
+
+        if item == "done":
+            break
+
+        if item not in items:
+            print("Invalid item!")
+            continue
+
+        quantity = int(input(f"Enter the quantity of {item}: "))
+
+        total_cost += items[item] * quantity
+
+    print(f"\nYour total cost is ${total_cost:.2f}")
+
+shopping_game()
