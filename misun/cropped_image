@@ -1,0 +1,13 @@
+import cv2
+
+# 이미지 열기
+image = cv2.imread('example.jpg')
+
+# 이미지에서 원하는 부분 자르기 (예: 좌상단 절반)
+height, width = image.shape[:2]
+cropped_image = image[0:height//2, 0:width//2]
+
+# 결과 이미지 출력
+cv2.imshow('Cropped Image', cropped_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
