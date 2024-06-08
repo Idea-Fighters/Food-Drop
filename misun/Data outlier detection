@@ -1,0 +1,17 @@
+import numpy as np
+from scipy.stats import zscore
+
+# 데이터 생성
+data = np.array([10, 15, 20, 25, 30, 100])
+
+# Z-score 계산
+z_scores = zscore(data)
+
+# 이상치 탐지
+threshold = 3
+outliers = np.where(np.abs(z_scores) > threshold)[0]
+
+# 이상치 출력
+print("Data:", data)
+print("Z-scores:", z_scores)
+print("Outliers:", data[outliers])
