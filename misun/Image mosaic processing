@@ -1,0 +1,18 @@
+import cv2
+
+# 이미지 열기
+image = cv2.imread('example.jpg')
+
+# 모자이크 처리할 영역 지정 (예: 얼굴 영역)
+x, y, w, h = 100, 100, 200, 200
+
+# 지정된 영역 모자이크 처리
+roi = image[y:y+h, x:x+w]
+roi = cv2.resize(roi, (30, 30), interpolation=cv2.INTER_NEAREST)
+roi = cv2.resize(roi, (w, h), interpolation=cv2.INTER_NEAREST)
+image[y:y+h, x:x+w] = roi
+
+# 결과 이미지 출력
+cv2.imshow('Result', image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
