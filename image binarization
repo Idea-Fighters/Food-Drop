@@ -1,0 +1,15 @@
+import cv2
+
+# 이미지 열기
+image = cv2.imread('example.jpg')
+
+# 그레이 스케일로 변환
+gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# 이진화
+_, binary_image = cv2.threshold(gray_image, 127, 255, cv2.THRESH_BINARY)
+
+# 결과 이미지 출력
+cv2.imshow('Binary Image', binary_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
