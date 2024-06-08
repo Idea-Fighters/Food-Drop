@@ -1,0 +1,25 @@
+import requests
+from bs4 import BeautifulSoup
+
+# 웹 페이지 URL
+url = 'https://en.wikipedia.org/wiki/List_of_countries_by_population_(United_Nations)'
+
+# 웹 페이지 요청
+response = requests.get(url)
+
+# 응답 코드 확인
+if response.status_code == 200:
+    # BeautifulSoup을 사용하여 HTML 파싱
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    # 표에서 국가 및 인구 데이터 추출
+    table = soup.find('table', class_='wikitable')
+    rows = table.find_all('tr')
+
+    for row in rows[1:11]:  # 상위 10개 국가만 출력
+        columns = row.find_all('td')
+        country = columns[0].text.strip()
+        population = columns[1].text.strip()
+        print(f"Country: {country}, Population: {population}")
+else:
+    print("Failed to retrieve data from the website.")
