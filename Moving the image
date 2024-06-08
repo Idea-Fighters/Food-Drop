@@ -1,0 +1,18 @@
+import cv2
+
+# 이미지 열기
+image = cv2.imread('example.jpg')
+
+# 이미지 이동에 필요한 변환 매트릭스 생성
+x_offset = 50  # 수평 이동 거리
+y_offset = 20  # 수직 이동 거리
+rows, cols = image.shape[:2]
+translation_matrix = np.float32([[1, 0, x_offset], [0, 1, y_offset]])
+
+# 이미지 이동 적용
+translated_image = cv2.warpAffine(image, translation_matrix, (cols, rows))
+
+# 결과 이미지 출력
+cv2.imshow('Translated Image', translated_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
