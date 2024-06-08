@@ -1,0 +1,33 @@
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives import padding
+from cryptography.hazmat.backends import default_backend
+import os
+
+# 암호화에 사용할 키와 초기화 벡터 (IV) 생성
+key = os.urandom(32)  # 256-bit 키 생성
+iv = os.urandom(16)   # 128-bit IV 생성
+
+# 암호화할 메시지
+message = b"Confidential data that needs to be encrypted"
+
+# 패딩 추가 (AES는 블록 크기가 128비트이므로 패딩이 필요)
+padder = padding.PKCS7(128).padder()
+padded_message = padder.update(message) + padder.finalize()
+
+# 암호화
+cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
+encryptor = cipher.encryptor()
+ciphertext = encryptor.update(padded_message) + encryptor.finalize()
+
+print(f"Ciphertext: {ciphertext}")
+
+# 복호화
+cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
+decryptor = cipher.decryptor()
+decrypted_padded_message = decryptor.update(ciphertext) + decryptor.finalize()
+
+# 패딩 제거
+unpadder = padding.PKCS7(128).unpadder()
+decrypted_message = unpadder.update(decrypted_padded_message) + unpadder.finalize()
+
+print(f"Decrypted message: {decrypted_message}")
