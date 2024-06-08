@@ -1,0 +1,19 @@
+from PIL import Image, ImageDraw
+
+# 이미지 열기
+image = Image.open('example.jpg')
+
+# 이미지에 그래픽 요소 그리기
+draw = ImageDraw.Draw(image)
+
+# 선 그리기
+draw.line([(50, 50), (200, 50), (200, 200), (50, 200), (50, 50)], fill='red', width=5)
+
+# 사각형 그리기
+draw.rectangle([(250, 50), (400, 200)], outline='green', width=3)
+
+# 원 그리기
+draw.ellipse([(450, 50), (600, 200)], outline='blue', width=3)
+
+# 수정된 이미지 저장
+image.save('graphic_example.jpg')
