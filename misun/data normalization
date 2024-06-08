@@ -1,0 +1,16 @@
+import numpy as np
+
+# 데이터 생성
+data = np.array([[10, 20, 30],
+                 [15, 25, 35],
+                 [20, 30, 40]])
+
+# Min-Max 스케일링
+min_vals = np.min(data, axis=0)
+max_vals = np.max(data, axis=0)
+normalized_data = (data - min_vals) / (max_vals - min_vals)
+
+print("Original Data:")
+print(data)
+print("\nNormalized Data:")
+print(normalized_data)
