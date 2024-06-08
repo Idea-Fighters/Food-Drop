@@ -1,0 +1,32 @@
+import random
+
+def disappearing_cards_memory_matching_game():
+    cards = ['A', 'A', 'B', 'B', 'C', 'C', 'D', 'D']
+    random.shuffle(cards)
+    board = ['_' for _ in range(len(cards))]
+    attempts = 0
+
+    def print_board():
+        print(' '.join(board))
+
+    while '_' in board:
+        print_board()
+        try:
+            first = int(input('첫 번째 카드를 선택하세요 (0-7): '))
+            second = int(input('두 번째 카드를 선택하세요 (0-7): '))
+            if cards[first] == cards[second]:
+                print(f'카드 매치: {cards[first]}')
+                board[first] = cards[first]
+                board[second] = cards[second]
+            else:
+                print('카드가 일치하지 않습니다.')
+                board[first] = 'X'
+                board[second] = 'X'
+            attempts += 1
+        except (ValueError, IndexError):
+            print('잘못된 입력입니다.')
+
+    print(f'축하합니다! 모든 카드를 맞췄습니다. 시도 횟수: {attempts}')
+
+disappearing_cards_memory_matching_game()
+
