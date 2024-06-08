@@ -1,0 +1,14 @@
+from PIL import Image, ImageFilter
+
+# 이미지 열기
+image = Image.open('example.jpg')
+
+# 이미지 크기 조정
+resized_image = image.resize((300, 200))
+
+# 이미지 필터 적용
+filtered_image = image.filter(ImageFilter.GaussianBlur(radius=2))
+
+# 이미지 출력
+resized_image.show()
+filtered_image.show()
