@@ -1,3 +1,0 @@
-t =int(input())
-a =t % 20000303
-print(a)
