@@ -1,6 +1,0 @@
-t =int(input())
-
-
-for _ in range(t):
-    n, b =map(int, input().split())
-    print(n + b) 
