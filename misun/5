@@ -1,0 +1,45 @@
+import jwt
+import datetime
+
+# 비밀 키 설정
+SECRET_KEY = 'your_secret_key'
+
+# JWT 생성
+def create_jwt(data, secret_key, algorithm='HS256', expiration_minutes=30):
+    # 현재 시간 기준으로 만료 시간 설정
+    expiration = datetime.datetime.utcnow() + datetime.timedelta(minutes=expiration_minutes)
+    # 페이로드에 만료 시간 추가
+    data['exp'] = expiration
+    # JWT 생성
+    token = jwt.encode(data, secret_key, algorithm=algorithm)
+    return token
+
+# JWT 검증
+def verify_jwt(token, secret_key, algorithms=['HS256']):
+    try:
+        # 토큰 검증
+        decoded_data = jwt.decode(token, secret_key, algorithms=algorithms)
+        return decoded_data
+    except jwt.ExpiredSignatureError:
+        # 토큰 만료
+        return None
+    except jwt.InvalidTokenError:
+        # 유효하지 않은 토큰
+        return None
+
+# 데이터 예시
+data = {
+    'user_id': 123,
+    'username': 'example_user'
+}
+
+# JWT 생성
+token = create_jwt(data, SECRET_KEY)
+print(f"Generated JWT: {token}")
+
+# JWT 검증
+decoded_data = verify_jwt(token, SECRET_KEY)
+if decoded_data:
+    print(f"Decoded Data: {decoded_data}")
+else:
+    print("Invalid or expired token")
