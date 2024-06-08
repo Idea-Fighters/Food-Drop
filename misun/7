@@ -1,0 +1,45 @@
+import random
+import string
+import re
+
+# 패스워드 생성 함수
+def generate_password(length=12):
+    if length < 8:
+        raise ValueError("Password length should be at least 8 characters")
+
+    # 모든 문자 유형을 하나씩 포함하도록 패스워드의 일부를 만듭니다.
+    all_chars = string.ascii_letters + string.digits + string.punctuation
+    password = [
+        random.choice(string.ascii_lowercase),
+        random.choice(string.ascii_uppercase),
+        random.choice(string.digits),
+        random.choice(string.punctuation)
+    ]
+
+    # 나머지 문자들로 패스워드를 채웁니다.
+    password += random.choices(all_chars, k=length - 4)
+    random.shuffle(password)
+
+    return ''.join(password)
+
+# 패스워드 검증 함수
+def validate_password(password):
+    if len(password) < 8:
+        return False, "Password must be at least 8 characters long"
+    if not re.search("[a-z]", password):
+        return False, "Password must contain at least one lowercase letter"
+    if not re.search("[A-Z]", password):
+        return False, "Password must contain at least one uppercase letter"
+    if not re.search("[0-9]", password):
+        return False, "Password must contain at least one digit"
+    if not re.search("[!@#$%^&*(),.?\":{}|<>]", password):
+        return False, "Password must contain at least one special character"
+
+    return True, "Password is valid"
+
+# 패스워드 생성 및 검증 예제
+new_password = generate_password()
+print(f"Generated Password: {new_password}")
+
+is_valid, message = validate_password(new_password)
+print(f"Validation Result: {message}")
