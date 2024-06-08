@@ -1,0 +1,22 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# CSV 파일 로드
+df = pd.read_csv('example.csv')
+
+# 나이에 대한 히스토그램 그리기
+plt.figure(figsize=(8, 6))
+plt.hist(df['Age'], bins=10, color='skyblue', edgecolor='black')
+plt.title('Age Distribution')
+plt.xlabel('Age')
+plt.ylabel('Frequency')
+plt.grid(True)
+plt.show()
+
+# 신장에 대한 상자 그림 그리기
+plt.figure(figsize=(8, 6))
+plt.boxplot(df['Height'], vert=False)
+plt.title('Height Distribution')
+plt.xlabel('Height')
+plt.grid(True)
+plt.show()
