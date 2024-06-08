@@ -1,0 +1,56 @@
+from flask import Flask, render_template, redirect, url_for, request
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key'
+
+# Flask-Login 초기화
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+# 가상의 사용자 데이터베이스
+users = {'user1': {'password': 'password1', 'role': 'user'},
+         'user2': {'password': 'password2', 'role': 'admin'}}
+
+# 사용자 클래스 정의
+class User(UserMixin):
+    pass
+
+# 사용자 로드 함수
+@login_manager.user_loader
+def load_user(username):
+    if username in users:
+        user = User()
+        user.id = username
+        return user
+
+# 로그인 라우트
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if username in users and users[username]['password'] == password:
+            user = User()
+            user.id = username
+            login_user(user)
+            return redirect(url_for('index'))
+        else:
+            return 'Invalid username or password'
+    return render_template('login.html')
+
+# 로그아웃 라우트
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+# 보호된 페이지 라우트
+@app.route('/')
+@login_required
+def index():
+    return f'Welcome, {current_user.id}! Your role is {users[current_user.id]["role"]}'
+
+if __name__ == '__main__':
+    app.run(debug=True)
