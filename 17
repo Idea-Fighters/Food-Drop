@@ -1,0 +1,31 @@
+import secrets
+import bcrypt
+
+# 무작위 비밀번호 생성 함수
+def generate_password(length=12):
+    alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=~"
+    password = ''.join(secrets.choice(alphabet) for i in range(length))
+    return password
+
+# 비밀번호 해싱 함수
+def hash_password(password):
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password.encode(), salt)
+    return hashed_password
+
+# 비밀번호 검증 함수
+def verify_password(password, hashed_password):
+    return bcrypt.checkpw(password.encode(), hashed_password)
+
+# 새로운 무작위 비밀번호 생성
+new_password = generate_password()
+print("Generated Password:", new_password)
+
+# 비밀번호 해싱 및 저장
+hashed_password = hash_password(new_password)
+print("Hashed Password:", hashed_password)
+
+# 사용자가 입력한 비밀번호 검증
+user_input_password = input("Enter password to verify: ")
+is_valid = verify_password(user_input_password, hashed_password)
+print("Password is valid:", is_valid)
