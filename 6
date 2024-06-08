@@ -1,0 +1,56 @@
+import sqlite3
+
+# SQLite 데이터베이스에 연결
+conn = sqlite3.connect(':memory:')
+cursor = conn.cursor()
+
+# 테이블 생성
+cursor.execute('''
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    password TEXT NOT NULL
+)
+''')
+conn.commit()
+
+# 샘플 데이터 삽입
+cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', ('user1', 'password1'))
+cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', ('user2', 'password2'))
+conn.commit()
+
+# SQL 인젝션이 있는 취약한 쿼리 예제 (보안 취약)
+def unsafe_login(username, password):
+    query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"
+    print(f"Unsafe Query: {query}")
+    cursor.execute(query)
+    return cursor.fetchone()
+
+# 안전한 쿼리 예제 (파라미터화된 쿼리 사용)
+def safe_login(username, password):
+    query = "SELECT * FROM users WHERE username = ? AND password = ?"
+    cursor.execute(query, (username, password))
+    return cursor.fetchone()
+
+# SQL 인젝션 공격 시도
+username = "user1"
+password = "password1' OR '1'='1"
+print("Attempting SQL Injection Attack...")
+user = unsafe_login(username, password)
+if user:
+    print(f"Unsafe Login Success: {user}")
+else:
+    print("Unsafe Login Failed")
+
+# 안전한 로그인 시도
+username = "user1"
+password = "password1' OR '1'='1"
+print("\nAttempting Safe Login...")
+user = safe_login(username, password)
+if user:
+    print(f"Safe Login Success: {user}")
+else:
+    print("Safe Login Failed")
+
+# 데이터베이스 연결 닫기
+conn.close()
