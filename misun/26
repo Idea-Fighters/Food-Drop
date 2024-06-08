@@ -1,0 +1,44 @@
+from flask import Flask, request, make_response, session, redirect, url_for
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key'
+
+# 세션 기반 인증 예제
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        # 사용자 인증 체크 (예시)
+        if username == 'admin' and password == 'password':
+            session['logged_in'] = True
+            return redirect(url_for('dashboard'))
+    return '''
+        <form method="post">
+            <p><input type=text name=username>
+            <p><input type=password name=password>
+            <p><input type=submit value=Login>
+        </form>
+    '''
+
+@app.route('/dashboard')
+def dashboard():
+    if 'logged_in' in session:
+        return 'Welcome to the dashboard!'
+    else:
+        return redirect(url_for('login'))
+
+# 안전한 쿠키 설정 및 가져오기 예제
+@app.route('/set_cookie')
+def set_cookie():
+    resp = make_response('Cookie set!')
+    resp.set_cookie('cookie_name', 'cookie_value', httponly=True, samesite='Strict')
+    return resp
+
+@app.route('/get_cookie')
+def get_cookie():
+    cookie_value = request.cookies.get('cookie_name')
+    return f'Cookie value: {cookie_value}'
+
+if __name__ == '__main__':
+    app.run(debug=True)
