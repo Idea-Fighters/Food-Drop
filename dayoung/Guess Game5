@@ -1,0 +1,23 @@
+import random 
+
+print('뒤죽박죽 영어 단어 게임')
+print('원래 영어 단어를 맞추는 게임 입니다.')
+
+words = ['lion', 'apple', 'airplane', 'zoo', 'sun']
+random.shuffle(words)
+
+for word in words:
+    characters = list(word)
+    #print(characters)
+    random.shuffle(characters)
+    #print(characters)
+    shuffled_word = ''.join(characters)
+    #print(shuffled_word)
+
+    guess = input('{} 의 원래 영어 단어를 알아 맞추세요: '.format(shuffled_word))
+
+    if guess == word: 
+        print('원래 영어 단어가 맞습니다.') 
+    else: 
+        print('원래 영어 단어가 아닙니다.')
+
