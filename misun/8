@@ -1,0 +1,71 @@
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import padding
+import os
+
+# 비밀번호로부터 키를 생성하는 함수
+def generate_key(password, salt):
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=100000,
+        backend=default_backend()
+    )
+    key = kdf.generate_key()
+    return key
+
+# 파일 암호화 함수
+def encrypt_file(password, input_file, output_file):
+    salt = os.urandom(16)
+    key = generate_key(password, salt)
+    iv = os.urandom(16)
+    
+    cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
+    encryptor = cipher.encryptor()
+
+    with open(input_file, 'rb') as f:
+        file_data = f.read()
+
+    padder = padding.PKCS7(algorithms.AES.block_size).padder()
+    padded_data = padder.update(file_data) + padder.finalize()
+    
+    encrypted_data = encryptor.update(padded_data) + encryptor.finalize()
+
+    with open(output_file, 'wb') as f:
+        f.write(salt + iv + encrypted_data)
+
+# 파일 복호화 함수
+def decrypt_file(password, input_file, output_file):
+    with open(input_file, 'rb') as f:
+        salt = f.read(16)
+        iv = f.read(16)
+        encrypted_data = f.read()
+
+    key = generate_key(password, salt)
+    cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
+    decryptor = cipher.decryptor()
+
+    padded_data = decryptor.update(encrypted_data) + decryptor.finalize()
+
+    unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
+    file_data = unpadder.update(padded_data) + unpadder.finalize()
+
+    with open(output_file, 'wb') as f:
+        f.write(file_data)
+
+# 사용 예제
+password = b'my_secret_password'
+input_file = 'example.txt'
+encrypted_file = 'example_encrypted.txt'
+decrypted_file = 'example_decrypted.txt'
+
+# 파일 암호화
+encrypt_file(password, input_file, encrypted_file)
+print(f"File {input_file} encrypted to {encrypted_file}")
+
+# 파일 복호화
+decrypt_file(password, encrypted_file, decrypted_file)
+print(f"File {encrypted_file} decrypted to {decrypted_file}")
