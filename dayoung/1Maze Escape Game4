@@ -1,0 +1,27 @@
+def play_maze_game(maze, max_moves):
+    start_row, start_col = 0, 0
+    end_row, end_col = len(maze) - 1, len(maze[0]) - 1
+    current_position = (start_row, start_col)
+    move_count = 0
+
+    print("Welcome to the Maze Escape Game!")
+    print("P - Player")
+
+    while current_position != (end_row, end_col) and move_count < max_moves:
+        print_maze(maze, current_position)
+        direction = input("Enter your move (up/down/left/right): ")
+        current_position = move_player(maze, current_position, direction.lower())
+        if current_position == (end_row, end_col):
+            break
+        elif maze[current_position[0]][current_position[1]] == "#":
+            print("You hit a wall! Try another direction.")
+        move_count += 1
+
+    if current_position == (end_row, end_col):
+        print_maze(maze, current_position)
+        print("Congratulations! You escaped the maze!")
+    else:
+        print("You reached the maximum number of moves! Game over.")
+
+# 게임 실행 (이동 횟수 제한 추가)
+play_maze_game(maze1, 20)
