@@ -1,0 +1,8 @@
+str = input("문자열을 입력하세요")
+len1 = len(str)%2
+len2 = len(str)/2
+
+if len1:
+    print(str[round(len2)])
+else :
+    print(str[int(len2 -1)], str[int(len2)])
