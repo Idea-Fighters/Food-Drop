@@ -1,0 +1,32 @@
+import random
+
+game_count = 0 # 게임 회수를 카운트
+strike = 0 # 스트라이크
+ball = 0 # 볼
+index = 0 # 플레이어가 입력한 3자리 숫자의 인덱스
+
+secret_number = random.sample(range(1,10),3) # 3자리 비밀 숫자
+
+print(" >> 숫자 야구 게임 << ")
+#print(secret_number)
+
+while game_count < 10 :
+  strike, ball, index = 0, 0, 0
+  player_number = input("추측한 숫자를 입력하세요 >> ")
+  
+  for number in secret_number :
+    if int(player_number[index]) == number : # 비밀 숫자와 플레이어가 입력한 숫자 비교 (스트라이크)
+      strike = strike + 1
+    elif int(player_number[index]) in secret_number : # in 연산자를 이용하여 비밀 숫자가 있는지 비교 (볼)
+      ball = ball + 1
+    
+    index = index + 1 # 인덱스 증가
+  
+  print(strike, "스트라이크", " / ", ball, "볼")
+  game_count = game_count + 1
+  
+  if strike == 3 :
+    print("축하합니다.", game_count, "번만에 맞췄습니다.")
+    break
+    35
+if game_count == 10 : print("게임 종료")
