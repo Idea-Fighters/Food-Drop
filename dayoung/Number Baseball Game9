@@ -1,0 +1,41 @@
+import random
+import time
+
+def generate_number():
+    numbers = list(range(10))
+    random.shuffle(numbers)
+    return numbers[:3]
+
+def evaluate_guess(secret, guess):
+    strikes = sum(1 for i in range(3) if secret[i] == guess[i])
+    balls = sum(1 for i in range(3) if secret[i] != guess[i] and guess[i] in secret)
+    return strikes, balls
+
+def timed_number_baseball_game():
+    secret = generate_number()
+    attempts = 0
+    start_time = time.time()
+    time_limit = 60  # 60초 제한
+
+    while True:
+        elapsed_time = time.time() - start_time
+        if elapsed_time > time_limit:
+            print("시간 초과! 게임 오버!")
+            print(f"정답은 {''.join(map(str, secret))}였습니다.")
+            break
+
+        guess = input("숫자를 입력하세요 (예: 123): ")
+        guess = [int(x) for x in guess]
+        attempts += 1
+
+        strikes, balls = evaluate_guess(secret, guess)
+        print(f"{strikes} 스트라이크, {balls} 볼")
+
+        if strikes == 3:
+            print(f"축하합니다! {attempts}번 만에 맞췄습니다.")
+            break
+
+        print(f"남은 시간: {time_limit - int(elapsed_time)}초")
+
+timed_number_baseball_game()
+
