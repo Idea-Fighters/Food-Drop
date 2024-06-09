@@ -1,0 +1,33 @@
+import random
+import time
+
+words = ["python", "java", "computer", "windows", "project", "coding",
+         "google", "naver", "git"]
+
+n = 1    # 문제 번호
+print("[타자 게임] 준비되면 엔터 !! ")
+input()    # 사용자가 엔터를 누를 때까지 기다립니다.
+
+start = time.time()   # 스톱워치를 실행함
+# q = random.choice(words)  # 위에 있는 단어들을 랜덤으로 출력
+
+
+
+while n <= 5: # 문제 갯수를 정합니다.
+    q = random.choice(words)
+    print("==문제",n,"번==")
+    print(q)
+    x = input() # 사용자 입력을 받습니다.
+
+    if q == x:
+        print("통과, 다음문제 !")
+        n = n + 1
+        q = random.choice(words)
+    elif q != x:
+        print("오타 ! 다시 입력하세요")
+
+
+end = time.time()
+et = end - start
+et = format(et,".2f")    #정확한 기록을 위해 소수점 둘째 자리까지 출력합니다
+print("총 걸린 시간: ",et,"초")
