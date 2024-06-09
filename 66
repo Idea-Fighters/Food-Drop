@@ -1,0 +1,35 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 임의의 데이터 생성
+np.random.seed(0)
+X = 2 * np.random.rand(100, 1)
+y = 4 + 3 * X + np.random.randn(100, 1)
+
+# 데이터 시각화
+plt.scatter(X, y)
+plt.xlabel('X')
+plt.ylabel('y')
+plt.title('Generated Data')
+plt.show()
+
+# 선형 회귀 모델 학습
+X_b = np.c_[np.ones((100, 1)), X]  # 모든 샘플에 x0 = 1 추가
+theta_best = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y)
+
+# 학습된 모델 파라미터 출력
+print("학습된 모델 파라미터:", theta_best)
+
+# 새로운 데이터에 대한 예측
+X_new = np.array([[0], [2]])
+X_new_b = np.c_[np.ones((2, 1)), X_new]  # 모든 샘플에 x0 = 1 추가
+y_predict = X_new_b.dot(theta_best)
+print("새로운 데이터에 대한 예측:", y_predict)
+
+# 예측 결과 시각화
+plt.plot(X_new, y_predict, "r-")
+plt.scatter(X, y)
+plt.xlabel('X')
+plt.ylabel('y')
+plt.title('Linear Regression Prediction')
+plt.show()
