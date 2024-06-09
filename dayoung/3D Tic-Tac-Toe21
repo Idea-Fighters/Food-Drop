@@ -1,0 +1,66 @@
+import numpy as np
+import random
+
+def check_winner(board):
+    for i in range(3):
+        if np.all(board[i,:,:] == board[i,0,0]) and board[i,0,0] != 0:
+            return board[i,0,0]
+        if np.all(board[:,i,:] == board[0,i,0]) and board[0,i,0] != 0:
+            return board[0,i,0]
+        if np.all(board[:,:,i] == board[0,0,i]) and board[0,0,i] != 0:
+            return board[0,0,i]
+
+    for axis in range(3):
+        for i in range(3):
+            if np.all(board.take(i, axis=axis) == board.take(i, axis=axis)[0, 0]) and board.take(i, axis=axis)[0, 0] != 0:
+                return board.take(i, axis=axis)[0, 0]
+
+    if np.all(np.diagonal(board) == board[0,0,0]) and board[0,0,0] != 0:
+        return board[0,0,0]
+    if np.all(np.diagonal(np.fliplr(board)) == board[0,2,0]) and board[0,2,0] != 0:
+        return board[0,2,0]
+
+    return 0
+
+def print_board(board):
+    for layer in board:
+        print(layer)
+        print()
+
+def random_event(board):
+    event = random.choice(["swap", "clear", "block"])
+    if event == "swap":
+        print("Random Event: Swap two random pieces!")
+        x1, y1, z1 = random.randint(0, 2), random.randint(0, 2), random.randint(0, 2)
+        x2, y2, z2 = random.randint(0, 2), random.randint(0, 2), random.randint(0, 2)
+        board[x1, y1, z1], board[x2, y2, z2] = board[x2, y2, z2], board[x1, y1, z1]
+    elif event == "clear":
+        print("Random Event: Clear a random piece!")
+        x, y, z = random.randint(0, 2), random.randint(0, 2), random.randint(0, 2)
+        board[x, y, z] = 0
+    elif event == "block":
+        print("Random Event: Block a random cell!")
+        x, y, z = random.randint(0, 2), random.randint(0, 2), random.randint(0, 2)
+        board[x, y, z] = -1  # Blocked cell
+
+def play_game():
+    board = np.zeros((3, 3, 3), dtype=int)
+    player = 1
+    while True:
+        print_board(board)
+        x, y, z = map(int, input(f"Player {player}, enter your move (x y z): ").split())
+        if board[x, y, z] != 0:
+            print("Invalid move! Try again.")
+            continue
+        board[x, y, z] = player
+        winner = check_winner(board)
+        if winner != 0:
+            print_board(board)
+            print(f"Player {winner} wins!")
+            break
+        random_event(board)
+        player = 3 - player
+
+play_game()
+
+
