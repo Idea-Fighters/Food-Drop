@@ -1,0 +1,31 @@
+import random
+
+def generate_random_maze(rows, cols, obstacles):
+    maze = [[" " for _ in range(cols)] for _ in range(rows)]
+    for obstacle in obstacles:
+        row, col = obstacle
+        maze[row][col] = "#"
+    return maze
+
+def play_random_obstacle_maze_game(rows, cols, start, end, num_obstacles):
+    obstacles = [(random.randint(0, rows - 1), random.randint(0, cols - 1)) for _ in range(num_obstacles)]
+    maze = generate_random_maze(rows, cols, obstacles)
+    current_position = start
+
+    print("Welcome to the Maze Escape Game!")
+    print("P - Player")
+
+    while current_position != end:
+        print_maze(maze, current_position)
+        direction = input("Enter your move (up/down/left/right): ")
+        current_position = move_player(maze, current_position, direction.lower())
+        if current_position == end:
+            break
+        elif maze[current_position[0]][current_position[1]] == "#":
+            print("You hit a wall! Try another direction.")
+
+    print_maze(maze, current_position)
+    print("Congratulations! You escaped the maze!")
+
+# 게임 실행 (랜덤 장애물 추가)
+play_random_obstacle_maze_game(6, 8, (0, 0), (5, 7), 10)
