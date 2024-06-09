@@ -1,0 +1,32 @@
+import random
+
+def generate_number():
+    numbers = list(range(10))
+    random.shuffle(numbers)
+    return numbers[:3]
+
+def evaluate_guess(secret, guess):
+    strikes = sum(1 for i in range(3) if secret[i] == guess[i])
+    balls = sum(1 for i in range(3) if secret[i] != guess[i] and guess[i] in secret)
+    return strikes, balls
+
+def unique_digits_number_baseball_game():
+    secret = generate_number()
+    attempts = 0
+
+    while True:
+        guess = input("숫자를 입력하세요 (예: 123): ")
+        if len(guess) != len(set(guess)):
+            print("각 자리의 숫자가 중복되지 않도록 입력하세요.")
+            continue
+        guess = [int(x) for x in guess]
+        attempts += 1
+
+        strikes, balls = evaluate_guess(secret, guess)
+        print(f"{strikes} 스트라이크, {balls} 볼")
+
+        if strikes == 3:
+            print(f"축하합니다! {attempts}번 만에 맞췄습니다.")
+            break
+
+unique_digits_number_baseball_game()
