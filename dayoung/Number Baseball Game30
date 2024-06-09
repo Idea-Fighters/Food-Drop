@@ -1,0 +1,37 @@
+
+import random
+computer=[]
+
+while True:
+    rd = random.randint(0, 9)
+    if(not rd in computer):
+        computer.append(rd)
+        if len(computer) == 3:
+            break
+print(len(computer))
+print(computer)
+cnt=0
+print("숫자 야구 게임")
+print ("규칙 1에서 9사이에 겹치치 않는 숫자 3개 입력")
+while True:
+          count = 0
+          bol = 0
+          cnt=cnt+1
+          number=[]
+          s=input('숫자3자리수 입력:')
+          for i in range(0,3):
+              number.append(int(s[i:i + 1]))
+          print(number)
+          for i in range(0,3):
+              if (computer[i] == number[i]):
+                  count=count+1
+              else:
+                    j=0
+                    for j in range(0,3):
+                        if (computer[i] == number[j]):
+                            bol = bol + 1
+          print("%d스트라이크" % count)
+          print("%d볼" % bol)
+          if(computer==number):
+              print("%d 번만에 정답!!" % cnt)
+              break
