@@ -1,0 +1,30 @@
+import requests
+from bs4 import BeautifulSoup
+import sqlite3
+
+# 웹 스크레이핑 함수
+def scrape_website(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    # 웹 페이지에서 필요한 정보 추출
+    data = []
+    for item in soup.find_all('div', class_='item'):
+        title = item.find('h2').text.strip()
+        description = item.find('p').text.strip()
+        data.append((title, description))
+    return data
+
+# 데이터베이스에 저장하는 함수
+def save_to_database(data):
+    conn = sqlite3.connect('scraper.db')
+    cursor = conn.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS scraped_data (title TEXT, description TEXT)''')
+    cursor.executemany('''INSERT INTO scraped_data (title, description) VALUES (?, ?)''', data)
+    conn.commit()
+    conn.close()
+
+if __name__ == "__main__":
+    # 웹 스크레이핑 실행
+    scraped_data = scrape_website('https://example.com')
+    # 수집된 데이터를 데이터베이스에 저장
+    save_to_database(scraped_data)
