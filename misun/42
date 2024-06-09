@@ -1,0 +1,43 @@
+import cv2
+import numpy as np
+
+# 이미지에서 차선을 감지하는 함수
+def detect_lane(image):
+    # 이미지를 그레이스케일로 변환
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    
+    # 가우시안 블러 적용
+    blur = cv2.GaussianBlur(gray, (5, 5), 0)
+    
+    # 케니 엣지 검출
+    edges = cv2.Canny(blur, 50, 150)
+    
+    # 관심 영역 설정
+    mask = np.zeros_like(edges)
+    height, width = image.shape[:2]
+    polygon = np.array([[(0, height), (width, height), (width // 2, height // 2)]], dtype=np.int32)
+    cv2.fillPoly(mask, polygon, 255)
+    masked_edges = cv2.bitwise_and(edges, mask)
+    
+    # 허프 변환을 사용하여 선 검출
+    lines = cv2.HoughLinesP(masked_edges, 1, np.pi/180, 100, minLineLength=100, maxLineGap=50)
+    
+    # 차선 그리기
+    lane_image = np.zeros_like(image)
+    if lines is not None:
+        for line in lines:
+            x1, y1, x2, y2 = line[0]
+            cv2.line(lane_image, (x1, y1), (x2, y2), (0, 255, 0), 5)
+    
+    return lane_image
+
+# 이미지 불러오기
+image = cv2.imread('road_image.jpg')
+
+# 차선 감지 함수 호출
+lane_image = detect_lane(image)
+
+# 결과 출력
+cv2.imshow('Lane Detection', lane_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
