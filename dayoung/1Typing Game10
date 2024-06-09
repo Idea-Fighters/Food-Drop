@@ -1,0 +1,23 @@
+import random
+import time
+w = ["cat","dog","fox","monkey","mouse","panda","frog","snake","wolf"]
+enter=input('[타자게임] 준비되면 엔터!')
+count=1
+first_time=time.time()
+ 
+while count<=5:
+    print('문제',count)
+    quiz=random.choice(w)
+    print(quiz)
+    answer=input()
+    
+    if answer == quiz:
+        print('통과!')
+        count=count+1
+    else:
+        count=count
+ 
+    if count > 5:
+        last_time=time.time()
+        real_time=last_time-first_time
+        print('타자 시간 : %.2f' % real_time,'초')
