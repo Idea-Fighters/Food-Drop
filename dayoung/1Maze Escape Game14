@@ -1,0 +1,66 @@
+print('Hello world!')import random
+
+# 미로 맵 생성
+def create_maze(size):
+    maze = []
+    for _ in range(size):
+        row = ['.'] * size
+        maze.append(row)
+    return maze
+
+# 보물과 함정 랜덤 배치
+def place_objects(maze, num_treasures, num_traps):
+    size = len(maze)
+    for _ in range(num_treasures):
+        row = random.randint(0, size - 1)
+        col = random.randint(0, size - 1)
+        maze[row][col] = 'T'
+    for _ in range(num_traps):
+        row = random.randint(0, size - 1)
+        col = random.randint(0, size - 1)
+        maze[row][col] = 'X'
+
+# 게임 시작
+def play_game(size, num_treasures, num_traps):
+    maze = create_maze(size)
+    place_objects(maze, num_treasures, num_traps)
+    player_row = random.randint(0, size - 1)
+    player_col = random.randint(0, size - 1)
+    print("미로에 들어왔습니다. 보물을 찾아 탈출하세요!")
+    while True:
+        print_maze(maze, player_row, player_col)
+        move = input("어느 방향으로 이동하시겠습니까? (북/남/동/서) ")
+        if move == '북':
+            player_row -= 1
+        elif move == '남':
+            player_row += 1
+        elif move == '동':
+            player_col += 1
+        elif move == '서':
+            player_col -= 1
+        else:
+            print("잘못된 입력입니다. 다시 입력하세요.")
+            continue
+        if player_row < 0 or player_row >= size or player_col < 0 or player_col >= size:
+            print("미로 밖으로 나갔습니다. 게임 오버!")
+            break
+        if maze[player_row][player_col] == 'T':
+            print("보물을 찾았습니다! 축하합니다!")
+            break
+        elif maze[player_row][player_col] == 'X':
+            print("함정에 빠졌습니다. 게임 오버!")
+            break
+
+# 미로 출력
+def print_maze(maze, player_row, player_col):
+    size = len(maze)
+    for i in range(size):
+        for j in range(size):
+            if i == player_row and j == player_col:
+                print('P', end=' ')
+            else:
+                print(maze[i][j], end=' ')
+        print()
+
+# 게임 실행
+play_game(5, 2, 3)  # 미로 크기, 보물 개수, 함정 개수 설정
