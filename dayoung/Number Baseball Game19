@@ -1,0 +1,37 @@
+import random
+
+def generate_number():
+    numbers = list(range(10))
+    random.shuffle(numbers)
+    return numbers[:3]
+
+def evaluate_guess(secret, guess):
+    strikes = sum(1 for i in range(3) if secret[i] == guess[i])
+    balls = sum(1 for i in range(3) if secret[i] != guess[i] and guess[i] in secret)
+    return strikes, balls
+
+def provide_hint_positions(secret, guess):
+    hint_positions = [i for i in range(3) if secret[i] == guess[i]]
+    return hint_positions
+
+def position_hint_number_baseball_game():
+    secret = generate_number()
+    attempts = 0
+
+    while True:
+        guess = input("숫자를 입력하세요 (예: 123): ")
+        guess = [int(x) for x in guess]
+        attempts += 1
+
+        strikes, balls = evaluate_guess(secret, guess)
+        print(f"{strikes} 스트라이크, {balls} 볼")
+
+        if strikes > 0:
+            hint_positions = provide_hint_positions(secret, guess)
+            print(f"힌트: 맞춘 숫자의 위치 - {hint_positions}")
+
+        if strikes == 3:
+            print(f"축하합니다! {attempts}번 만에 맞췄습니다.")
+            break
+
+position_hint_number_baseball_game()
