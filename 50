@@ -1,0 +1,22 @@
+import time
+from gps import gps, WATCH_ENABLE, WATCH_NEWSTYLE
+
+# GPS 데이터 수신 함수
+def get_gps_data():
+    gpsd_socket = gps(mode=WATCH_ENABLE | WATCH_NEWSTYLE)
+    try:
+        while True:
+            report = gpsd_socket.next()
+            if report['class'] == 'TPV':
+                if hasattr(report, 'lat') and hasattr(report, 'lon'):
+                    latitude = report.lat
+                    longitude = report.lon
+                    print(f'Latitude: {latitude}, Longitude: {longitude}')
+            time.sleep(1)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        gpsd_socket.close()
+
+if __name__ == '__main__':
+    get_gps_data()
