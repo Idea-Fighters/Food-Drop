@@ -1,0 +1,54 @@
+from donkeycar import Vehicle
+from donkeycar.parts.camera import PiCamera
+from donkeycar.parts.actuator import PCA9685, PWMSteering, PWMThrottle
+from donkeycar.parts.datastore import TubWriter
+from donkeycar.parts.controller import LocalWebController
+
+# 자율주행 RC 자동차를 제어하는 Donkey Car Vehicle 클래스 생성
+class MyVehicle(Vehicle):
+    def __init__(self, cfg):
+        super(MyVehicle, self).__init__(cfg)
+
+        # 카메라
+        self.camera = PiCamera()
+
+        # PCA9685 모터 컨트롤러
+        self.actuator = PCA9685(controller=cfg.CAMERA)
+
+        # 조향 및 스로틀 제어
+        self.steering_controller = PWMSteering(controller=self.actuator,
+                                                max_pulse=cfg.STEERING_MAX,
+                                                min_pulse=cfg.STEERING_MIN)
+
+        self.throttle_controller = PWMThrottle(controller=self.actuator,
+                                                max_pulse=cfg.THROTTLE_MAX,
+                                                min_pulse=cfg.THROTTLE_MIN)
+
+        # 데이터 저장
+        self.logger = TubWriter(path=cfg.DATA_PATH)
+
+        # 로컬 웹 컨트롤러
+        self.controller = LocalWebController()
+
+        # 파트 추가
+        self.add(self.camera, outputs=['image'])
+        self.add(self.steering_controller, inputs=['steering'], threaded=True)
+        self.add(self.throttle_controller, inputs=['throttle'], threaded=True)
+        self.add(self.logger, inputs=['image', 'steering', 'throttle'])
+        self.add(self.controller, inputs=['image'], outputs=['steering', 'throttle'])
+
+# Donkey Car 구성 설정
+cfg = {
+    'CAMERA': 0,
+    'STEERING_MIN': -100,
+    'STEERING_MAX': 100,
+    'THROTTLE_MIN': -100,
+    'THROTTLE_MAX': 100,
+    'DATA_PATH': './data'
+}
+
+# Donkey Car Vehicle 인스턴스 생성
+my_vehicle = MyVehicle(cfg)
+
+# 자율주행 시작
+my_vehicle.start()
