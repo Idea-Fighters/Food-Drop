@@ -1,0 +1,52 @@
+import numpy as np
+import time
+
+def check_winner(board):
+    for i in range(3):
+        if np.all(board[i,:,:] == board[i,0,0]) and board[i,0,0] != 0:
+            return board[i,0,0]
+        if np.all(board[:,i,:] == board[0,i,0]) and board[0,i,0] != 0:
+            return board[0,i,0]
+        if np.all(board[:,:,i] == board[0,0,i]) and board[0,0,i] != 0:
+            return board[0,0,i]
+
+    for axis in range(3):
+        for i in range(3):
+            if np.all(board.take(i, axis=axis) == board.take(i, axis=axis)[0, 0]) and board.take(i, axis=axis)[0, 0] != 0:
+                return board.take(i, axis=axis)[0, 0]
+
+    if np.all(np.diagonal(board) == board[0,0,0]) and board[0,0,0] != 0:
+        return board[0,0,0]
+    if np.all(np.diagonal(np.fliplr(board)) == board[0,2,0]) and board[0,2,0] != 0:
+        return board[0,2,0]
+
+    return 0
+
+def print_board(board):
+    for layer in board:
+        print(layer)
+        print()
+
+def play_game():
+    board = np.zeros((3, 3, 3), dtype=int)
+    player = 1
+    while True:
+        print_board(board)
+        start_time = time.time()
+        x, y, z = map(int, input(f"Player {player}, enter your move (x y z): ").split())
+        end_time = time.time()
+        if end_time - start_time > 10:
+            print(f"Player {player} took too long! Player {3 - player} wins!")
+            break
+        if board[x, y, z] != 0:
+            print("Invalid move! Try again.")
+            continue
+        board[x, y, z] = player
+        winner = check_winner(board)
+        if winner != 0:
+            print_board(board)
+            print(f"Player {winner} wins!")
+            break
+        player = 3 - player
+
+play_game()
