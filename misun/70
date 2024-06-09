@@ -1,0 +1,27 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import accuracy_score, classification_report
+
+# 데이터 생성
+X, y = make_classification(n_samples=1000, n_features=20, n_classes=2, random_state=42)
+
+# 훈련 데이터와 테스트 데이터로 분할
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# 다층 퍼셉트론 모델 학습
+model = MLPClassifier(hidden_layer_sizes=(100,), max_iter=1000, random_state=42)
+model.fit(X_train, y_train)
+
+# 테스트 데이터로 예측
+y_pred = model.predict(X_test)
+
+# 정확도 출력
+accuracy = accuracy_score(y_test, y_pred)
+print("테스트 세트 정확도:", accuracy)
+
+# 분류 보고서 출력
+print("분류 보고서:")
+print(classification_report(y_test, y_pred))
