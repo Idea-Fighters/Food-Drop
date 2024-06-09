@@ -1,0 +1,67 @@
+import cv2
+import numpy as np
+import RPi.GPIO as GPIO
+import time
+
+# GPIO 설정
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+
+# 서보모터 핀 설정
+SERVO_PIN = 18
+GPIO.setup(SERVO_PIN, GPIO.OUT)
+servo = GPIO.PWM(SERVO_PIN, 50)
+servo.start(0)
+
+# 카메라 설정
+cap = cv2.VideoCapture(0)
+cap.set(3, 640)
+cap.set(4, 480)
+
+# 차선 유지 기능
+def lane_keeping():
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+        
+        # 이미지 전처리: 그레이스케일 변환, 가우시안 블러, 케니 엣지 검출
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+        edges = cv2.Canny(blurred, 50, 150)
+
+        # 관심 영역 설정
+        mask = np.zeros_like(edges)
+        height, width = frame.shape[:2]
+        polygon = np.array([[(0, height), (width, height), (width // 2, height // 2)]], dtype=np.int32)
+        cv2.fillPoly(mask, polygon, 255)
+        masked_edges = cv2.bitwise_and(edges, mask)
+
+        # 허프 변환을 사용하여 직선 검출
+        lines = cv2.HoughLinesP(masked_edges, 1, np.pi/180, 100, minLineLength=100, maxLineGap=50)
+
+        if lines is not None:
+            for line in lines:
+                x1, y1, x2, y2 = line[0]
+                cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 5)
+        
+            # 차선 유지 알고리즘: 가운데 차선을 따라가도록 서보모터 각도 설정
+            midpoint = width // 2
+            lane_center = (lines[0][0][0] + lines[0][0][2]) // 2
+            error = midpoint - lane_center
+            steering_angle = np.clip(error * 0.1, -45, 45)
+            servo.ChangeDutyCycle(2 + steering_angle / 18)
+
+        cv2.imshow('Lane Keeping', frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
+if __name__ == '__main__':
+    try:
+        lane_keeping()
+    finally:
+        servo.stop()
+        GPIO.cleanup()
