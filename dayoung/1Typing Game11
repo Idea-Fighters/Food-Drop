@@ -1,0 +1,45 @@
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit
+from PyQt5.QtCore import QTimer, QTime
+
+class TypingGame(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+        self.words = ['apple', 'banana', 'cherry', 'date', 'elderberry']
+        self.currentWord = ''
+
+    def initUI(self):
+        self.layout = QVBoxLayout()
+
+        self.wordLabel = QLabel('Start typing...', self)
+        self.layout.addWidget(self.wordLabel)
+
+        self.inputLine = QLineEdit(self)
+        self.inputLine.returnPressed.connect(self.checkWord)
+        self.layout.addWidget(self.inputLine)
+
+        self.setLayout(self.layout)
+        self.setWindowTitle('Typing Game')
+        self.show()
+
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.newWord)
+        self.timer.start(5000)  # Change words every 5 seconds
+
+    def newWord(self):
+        import random
+        self.currentWord = random.choice(self.words)
+        self.wordLabel.setText(self.currentWord)
+
+    def checkWord(self):
+        if self.inputLine.text() == self.currentWord:
+            self.newWord()
+            self.inputLine.clear()
+            # Update score here (if implementing scoring system)
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = TypingGame()
+    sys.exit(app.exec_())
+
