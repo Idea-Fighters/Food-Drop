@@ -1,0 +1,6 @@
+
+입력1 = input()
+입력2 = input()
+print('------')
+print(입력1)
+print(입력2)
