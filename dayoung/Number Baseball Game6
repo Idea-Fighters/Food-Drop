@@ -1,0 +1,37 @@
+import random
+
+def generate_number(length):
+    numbers = list(range(10))
+    random.shuffle(numbers)
+    return numbers[:length]
+
+def evaluate_guess(secret, guess):
+    strikes = sum(1 for i in range(len(secret)) if secret[i] == guess[i])
+    balls = sum(1 for i in range(len(secret)) if secret[i] != guess[i] and guess[i] in secret)
+    return strikes, balls
+
+def challenge_mode_number_baseball_game():
+    length = 3
+    attempts = 0
+
+    while True:
+        secret = generate_number(length)
+        print(f"현재 레벨: {length-2}")
+        while True:
+            guess = input(f"숫자를 입력하세요 (예: {'123'[:length]}): ")
+            guess = [int(x) for x in guess]
+            attempts += 1
+
+            strikes, balls = evaluate_guess(secret, guess)
+            print(f"{strikes} 스트라이크, {balls} 볼")
+
+            if strikes == length:
+                print(f"축하합니다! {attempts}번 만에 맞췄습니다.")
+                break
+
+        length += 1
+        if length > 5:
+            print("모든 레벨을 완료했습니다!")
+            break
+
+challenge_mode_number_baseball_game()
