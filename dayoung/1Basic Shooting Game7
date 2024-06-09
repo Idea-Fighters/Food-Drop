@@ -1,0 +1,31 @@
+import random
+import time
+
+def move_random_target():
+    return random.randint(1, 10), random.randint(1, 10)
+
+def play_random_moving_target_shooting_game():
+    print("Welcome to the Shooting Game with Random Moving Target!")
+    print("Try to hit the moving target by entering the correct coordinates.")
+
+    target_row, target_col = move_random_target()
+
+    attempts = 0
+    while True:
+        print(f"Target position: ({target_row}, {target_col})")
+        user_input_row = int(input("Enter the row number (1-10): "))
+        user_input_col = int(input("Enter the column number (1-10): "))
+        attempts += 1
+
+        if user_input_row == target_row and user_input_col == target_col:
+            print("Congratulations! You hit the target!")
+            break
+        else:
+            print("Miss! Try again.")
+            time.sleep(1)  # 1초 대기 후 타깃 이동
+            target_row, target_col = move_random_target()
+
+    print(f"Number of attempts: {attempts}")
+
+# 게임 실행 (무작위 이동하는 타깃)
+play_random_moving_target_shooting_game()
