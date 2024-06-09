@@ -1,0 +1,6 @@
+
+x, y = 10, "code"
+
+print(f"x is {x}")
+print(f"y is {y}")
+print(f"x is {x} and y is {y}")
