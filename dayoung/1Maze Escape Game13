@@ -1,0 +1,126 @@
+# coding: utf-8
+import turtle
+screen = turtle.Screen()
+screen.setup(300,300)
+
+t=turtle.Turtle()
+turtle.bgcolor("yellow")
+
+
+X=0
+Y=1
+cubesize=20
+maze = [
+      [1,1,1,1,1,1,1,1,1,1],
+      [0,0,0,0,0,0,0,0,0,1],
+      [1,1,0,1,1,1,1,1,0,1],
+      [1,1,0,1,0,0,0,0,0,1],
+      [1,0,0,1,0,1,1,1,1,1],
+      [1,0,1,0,0,0,0,0,0,1],
+      [1,0,1,1,1,1,1,1,0,1],
+      [1,0,1,1,1,1,1,1,0,1],
+      [1,0,0,0,0,0,0,1,0,1],
+      [1,1,1,1,1,1,1,1,0,1]]
+mazelen = len(maze)
+
+def getx(x):
+    global cubesize
+    global mazelen
+    return (x-mazelen/2)*cubesize
+def gety(y):
+    global cubesize
+    global mazelen
+    return -(y-mazelen/2)*cubesize 
+
+    
+def draw_wall(x,y):
+    x=getx(x)
+    y=gety(y)
+    t.penup()
+    t.goto(x,y)
+    #t.shape(image)
+    t.shape("circle")
+    t.stamp() 
+
+
+
+def draw_maze(maze):
+    t.penup()
+    t.goto(getx(0),gety(0))
+    t.pendown()
+
+    for y in range(len(maze)):
+        for x in range(len(maze[y])):
+            if(maze[y][x]==1):
+                 draw_wall(x,y)
+
+
+
+def isWin(x,y):
+    print("x",x,"y",y)
+    if(x == 8):
+        if(y == 9):
+            t.write("you win",font=('Times New Roman',100,'bold'))
+        
+
+def turn_left():
+    global maze
+    global X
+    global Y
+    if(X>0):
+        if(maze[Y][X-1]==0):
+            X=X-1
+            t.seth(180)
+            t.goto(getx(X),gety(Y))
+            isWin(X,Y)
+def turn_right():
+    global maze
+    global X
+    global Y
+    if(X<9):
+        if(maze[Y][X+1]==0):
+            X=X+1
+            t.seth(0)
+            t.goto(getx(X),gety(Y))
+            isWin(X,Y)
+def go_up():
+    global maze
+    global X
+    global Y
+    if(Y>0):
+        if(maze[Y-1][X]==0):
+            Y=Y-1
+            t.seth(90)
+            t.goto(getx(X),gety(Y))
+            isWin(X,Y)
+            
+def go_down():
+    global maze
+    global X
+    global Y
+    if(Y<9):
+        if(maze[Y+1][X]==0):
+            Y=Y+1
+            t.seth(270)
+            t.goto(getx(X),gety(Y))
+            isWin(X,Y)
+
+      
+screen.onkey(turn_left,"Left")
+screen.onkey(turn_right,"Right")
+screen.onkey(go_up,"Up")
+screen.onkey(go_down,"Down")
+
+screen.listen()
+
+draw_maze(maze)
+
+t.shape("turtle")
+
+t.penup()
+
+t.color("pink")
+t.goto(getx(X),gety(Y))
+t.pendown()
+turtle.mainloop()
+
