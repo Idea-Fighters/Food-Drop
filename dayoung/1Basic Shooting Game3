@@ -1,0 +1,29 @@
+import random
+
+def generate_targets(num_targets):
+    targets = [(random.randint(1, 10), random.randint(1, 10)) for _ in range(num_targets)]
+    return targets
+
+def play_multiple_targets_shooting_game(num_targets):
+    print("Welcome to the Shooting Game with Multiple Targets!")
+    print(f"Try to hit {num_targets} targets by entering the correct coordinates.")
+
+    targets = generate_targets(num_targets)
+
+    attempts = 0
+    while targets:
+        print(f"Remaining targets: {len(targets)}")
+        user_input_row = int(input("Enter the row number (1-10): "))
+        user_input_col = int(input("Enter the column number (1-10): "))
+        attempts += 1
+
+        if (user_input_row, user_input_col) in targets:
+            print("Congratulations! You hit a target!")
+            targets.remove((user_input_row, user_input_col))
+        else:
+            print("Miss! Try again.")
+
+    print(f"Number of attempts: {attempts}")
+
+# 게임 실행 (다중 타깃)
+play_multiple_targets_shooting_game(3)
