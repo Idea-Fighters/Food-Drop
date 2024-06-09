@@ -1,0 +1,40 @@
+import random
+import time
+
+print("============================================")
+print("          타자 연습 게임 Ver0.9c")
+print("       Enter를 누르면 게임을 시작합니다.")
+print("============================================")
+input()
+start = time.time()
+
+Questions = ["성공이란 당신 자신, 당신이 하는 일, 그 일을 하는 방식을 좋아하는 것이다.",
+             "추구할 수 있는 용기가 있다면 우리의 모든 꿈은 이루어 질 수 있다.",
+             "기다리는 사람에게 좋은 일이 생기지만, 찾아나서는 사람에게는 더 좋은 일이 생긴다.",
+             "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
+             "기회는 일어나는 것이 아니라 만들어내는 것이다."]
+
+random.shuffle(Questions)
+n = 0
+while True :
+  print("문제{}".format(n+1))
+  typing = input("{}\n".format(Questions[0]))
+  start = time.time()
+  if typing != Questions[0] :
+     print("오타가 있습니다. 다시 쳐주세요.")
+
+ 
+
+  elif typing == Questions[0] :
+    print("완벽합니다.\n다음 문제로 통과")
+    Questions.pop(0)
+    n += 1
+    print()
+    
+  if Questions == [] :
+    end = time.time()
+    res = end - start
+    print("타자실력이 완벽합니다.")
+    print("총 걸린 시간은 {}초 입니다.".format(res))
+    break
+
