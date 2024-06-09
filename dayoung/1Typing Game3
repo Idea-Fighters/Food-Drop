@@ -1,0 +1,27 @@
+import random
+import string
+import time
+
+def generate_random_string(length):
+    return ''.join(random.choice(string.ascii_lowercase) for _ in range(length))
+
+def play_typing_game(duration):
+    print("Welcome to the Typing Game!")
+    print("Type the strings as fast as you can.")
+    input("Press Enter to start...")
+
+    start_time = time.time()
+    while time.time() - start_time < duration:
+        random_string = generate_random_string(random.randint(3, 8))
+        print(random_string)
+        user_input = input("Type the string: ")
+        if user_input.strip().lower() == random_string:
+            print("Correct!")
+        else:
+            print("Incorrect!")
+    
+    print("Time's up!")
+
+# 게임 실행
+game_duration = 30  # 30초 동안 진행
+play_typing_game(game_duration)
