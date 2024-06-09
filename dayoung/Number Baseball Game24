@@ -1,0 +1,73 @@
+# 랜덤 함수를 사용하기 위한 라이브러리와 콘솔 화면을 지우기 위해 os 라이브러리 사용
+import random
+import os
+
+# 숫자 3자리를 기억할 리스트 변수
+numbers = []
+# 토탈 시도 횟수와 스트라이크 변수 초기화
+cnt_total = 0
+cnt_strike = 0
+
+# 0~9 사이의 숫자 하나 랜덤 생성
+rand_num = str(random.randint(0, 9))
+
+# 3자리가 필요하니 3회 반복문
+for i in range(3):
+    # 현재 생성된 랜덤 숫자가 이미 numbers 리스트에 존재하면 다시 생성 (중복방지)
+    while rand_num in numbers:
+        rand_num = str(random.randint(0, 9))
+    # while 문을 벗어났단 이야기는 중복된 숫자가 아니니 numbers 리스트에 추가
+    numbers.append(rand_num)
+
+# 콘솔 화면 지움
+os.system("cls")
+
+# 안내 문구 출력
+print("=" * 50)
+print("야구 게임을 시작합니다!!")
+print("=" * 50)
+
+# 스트라이크가 3 미만 이면 (3스트라이크면 게임 종료)
+while(cnt_strike < 3):
+
+    # 스트라이크, 볼 카운트는 매번 입력할때마다 다시 확인해야하니 항상 0 으로 초기화
+    cnt_strike = 0    
+    cnt_ball = 0
+
+    # 사용자에게 입력 안내문구 출력 여기서 입력된 값은 str() 로 형변환
+    # 입력된 값은 문자열로 받아야 처리가 쉬움 num[0], num[1], num[2]
+    num = str(input("숫자 3자리를 입력하세요.> "))
+    
+    # 입력된 값이 3자리면
+    if len(num) == 3:
+        # i 반복은 사용자가 입력한 숫자값
+        for i in range(0, 3):
+            # j 반복은 원래 생성된 랜덤 숫자 3자리
+            for j in range(0, 3):
+                # 사용자가 입력한 값이 numbers 와 같고 자리수가 같다면 (i == j) 스트라이크 카운트 증가
+                if num[i] == numbers[j] and i == j:
+                    cnt_strike += 1
+                # 사용자가 입력한 값이 numbers 와 같고 자리수가 다르다면 (i != j) 볼 카운트 증가
+                elif num[i] == numbers[j] and i != j:
+                    cnt_ball += 1
+        # 볼, 스트라이크 카운트 모두 0 이면 아웃
+        if cnt_strike == 0 and cnt_ball == 0:
+            print("아웃!!")
+        else:
+            # 문자열 변수 초기화
+            output = ""
+            # 스트라이크가 있다면
+            if cnt_strike > 0:
+                output += "{} 스트라이크".format(cnt_strike)
+            # 볼이 있다면
+            if cnt_ball > 0:
+                output += " {} 볼".format(cnt_ball)
+            # 공백 제거 후 최종 문자열 출력(볼 메세지는 앞에 공백이 있어서 만약 볼만 출력되는거면 공백 제거됨)
+            print(output.strip())
+        # 토탈 시도횟수 카운트 증가
+        cnt_total += 1
+
+# 종료 문구 출력
+print("*" * 50)
+print("{} 회 만에 성공!!".format(cnt_total))
+
