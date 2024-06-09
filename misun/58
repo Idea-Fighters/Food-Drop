@@ -1,0 +1,38 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import minimize
+
+# 목적지 설정
+destination = np.array([10, 10])
+
+# 비용 함수 정의 (주행 경로의 길이)
+def cost_function(path):
+    path_length = np.sum(np.sqrt(np.sum(np.diff(path, axis=0) ** 2, axis=1)))
+    return path_length
+
+# 제약 조건 함수 정의 (시작점과 끝점이 주어진 목적지와 같아야 함)
+def constraint_function(path):
+    start_point = path[0]
+    end_point = path[-1]
+    return [start_point[0] - destination[0], start_point[1] - destination[1],
+            end_point[0] - destination[0], end_point[1] - destination[1]]
+
+# 초기 추정 주행 경로
+initial_guess = np.array([[0, 0], [5, 5], [10, 10]])
+
+# 최적화 문제 정의
+optimization_result = minimize(cost_function, initial_guess, method='SLSQP', constraints={'type': 'eq', 'fun': constraint_function})
+
+# 최적 주행 경로
+optimal_path = optimization_result.x
+
+# 시각화
+plt.figure(figsize=(8, 6))
+plt.plot(optimal_path[:, 0], optimal_path[:, 1], marker='o', linestyle='-', color='b')
+plt.plot(destination[0], destination[1], marker='*', markersize=15, color='r', label='Destination')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('Optimized Vehicle Path')
+plt.legend()
+plt.grid(True)
+plt.show()
