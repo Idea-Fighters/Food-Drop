@@ -1,0 +1,41 @@
+import RPi.GPIO as GPIO
+import time
+
+# GPIO 설정
+GPIO.setmode(GPIO.BCM)
+
+# 휠 감속 비율
+WHEEL_CIRCUMFERENCE = 0.5  # 휠 둘레 (단위: 미터)
+SENSOR_PIN = 4  # 속도 센서 핀 설정
+
+# 속도 측정 함수
+def measure_speed():
+    # 휠의 회전 수 측정
+    pulse_count = 0
+    start_time = time.time()
+    
+    def pulse_callback(channel):
+        nonlocal pulse_count
+        pulse_count += 1
+    
+    GPIO.setup(SENSOR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.add_event_detect(SENSOR_PIN, GPIO.FALLING, callback=pulse_callback)
+    
+    try:
+        while True:
+            # 1초 동안의 회전 수 측정
+            time.sleep(1)
+            end_time = time.time()
+            duration = end_time - start_time
+            start_time = end_time
+            rotations = pulse_count / 2  # 펄스 수를 회전 수로 변환
+            speed = (rotations * WHEEL_CIRCUMFERENCE) / duration  # 속도 계산
+            print(f'Speed: {speed:.2f} m/s')
+            pulse_count = 0  # 초기화
+    except KeyboardInterrupt:
+        pass
+    finally:
+        GPIO.cleanup()
+
+if __name__ == '__main__':
+    measure_speed()
