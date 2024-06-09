@@ -1,0 +1,29 @@
+# 아래로 움직이게 해주는 함수
+def move_D(i, j):
+    # 갈림길(D, R)
+    if maze[i + 1][j + 1] == '0' and maze[i + 2][j] == '0':
+        # 갈림길은 '2'로 마크하고
+        maze[i + 1][j] = '2'
+        print("PUSH(%d, %d, D)" % (i + 1, j))
+        # 스택에 push 해준 후
+        st.push([[i + 1, j], 'D'])
+        # 다음 좌표로 이동한다
+        i += 1
+    # 갈림길(D, L)
+    elif maze[i + 1][j - 1] == '0' and maze[i + 2][j] == '0':
+        maze[i + 1][j] = '2'
+        print("PUSH(%d, %d, D)" % (i + 1, j))
+        st.push([[i + 1, j], 'D'])
+        i += 1
+    # 갈림길(R, L)
+    elif maze[i + 1][j - 1] == '0' and maze[i + 1][j + 1] == '0':
+        maze[i + 1][j] = '2'
+        print("PUSH(%d, %d, R)" % (i + 1, j))
+        st.push([[i + 1, j], 'R'])
+        i += 1
+    # 갈림길이 아닐때
+    else:
+        maze[i + 1][j] = '1'
+        i += 1
+    return i, j
+
