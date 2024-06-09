@@ -1,0 +1,27 @@
+import random
+import time
+
+wordList=["cat", "dog", "fox", "monkey", "mouse", "panda", "frog", "snake", "wolf"]
+
+qnum=1  #문제 번호
+
+print("[타자게임] 준비되면 엔터!")
+input()                #무언가를 입력받아야 넘어가는 함수. 엔터를 쳐야 다음으로 넘어간다.
+start=time.time()      #시작시간 기록
+
+q=random.choice(wordList)   #무작위 선택
+while qnum<=5:
+    print("*문제", qnum)
+    print(q)
+    x=input()
+    if q==x:
+        print("통과!")
+        qnum=qnum+1
+        q=random.choice(wordList)
+    else:
+        print("오타! 다시 도전!")
+
+end=time.time()   #종료시간 기록
+et=end-start
+et=format(et, ".2f")  #포맷 함수. 타자시간을 저장하는 et변수가 소숫점 2자리까지 표시하도록 포맷을 변경.
+print("타자시간 :", et, "초")
