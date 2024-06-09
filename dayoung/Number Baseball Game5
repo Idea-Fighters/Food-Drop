@@ -1,0 +1,49 @@
+
+import random
+
+def generate_number():
+    numbers = list(range(10))
+    random.shuffle(numbers)
+    return numbers[:3]
+
+def evaluate_guess(secret, guess):
+    strikes = sum(1 for i in range(3) if secret[i] == guess[i])
+    balls = sum(1 for i in range(3) if secret[i] != guess[i] and guess[i] in secret)
+    return strikes, balls
+
+def computer_guess():
+    return [random.randint(0, 9) for _ in range(3)]
+
+def competition_number_baseball_game():
+    secret = generate_number()
+    attempts = 0
+    player_won = False
+
+    while True:
+        # 플레이어의 차례
+        player_guess = input("숫자를 입력하세요 (예: 123): ")
+        player_guess = [int(x) for x in player_guess]
+        attempts += 1
+
+        player_strikes, player_balls = evaluate_guess(secret, player_guess)
+        print(f"플레이어: {player_strikes} 스트라이크, {player_balls} 볼")
+
+        if player_strikes == 3:
+            player_won = True
+            break
+
+        # 컴퓨터의 차례
+        comp_guess = computer_guess()
+        comp_strikes, comp_balls = evaluate_guess(secret, comp_guess)
+        print(f"컴퓨터: {comp_strikes} 스트라이크, {comp_balls} 볼")
+
+        if comp_strikes == 3:
+            break
+
+    if player_won:
+        print(f"축하합니다! {attempts}번 만에 맞췄습니다.")
+    else:
+        print(f"컴퓨터가 이겼습니다! 정답은 {''.join(map(str, secret))}입니다.")
+
+competition_number_baseball_game()
+
