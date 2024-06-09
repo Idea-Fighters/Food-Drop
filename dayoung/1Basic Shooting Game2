@@ -1,0 +1,29 @@
+
+import random
+
+def play_limited_ammo_shooting_game(ammo_limit):
+    print("Welcome to the Shooting Game with Limited Ammo!")
+    print(f"You have {ammo_limit} bullets. Shoot the target by entering the correct coordinates.")
+
+    target_row = random.randint(1, 10)
+    target_col = random.randint(1, 10)
+
+    attempts = 0
+    bullets_used = 0
+    while bullets_used < ammo_limit:
+        user_input_row = int(input("Enter the row number (1-10): "))
+        user_input_col = int(input("Enter the column number (1-10): "))
+        attempts += 1
+
+        if user_input_row == target_row and user_input_col == target_col:
+            print("Congratulations! You hit the target!")
+            break
+        else:
+            print("Miss! Try again.")
+            bullets_used += 1
+
+    print(f"Number of attempts: {attempts}")
+    print(f"Bullets used: {bullets_used}")
+
+# 게임 실행 (총알 개수 제한)
+play_limited_ammo_shooting_game(5)
