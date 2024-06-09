@@ -1,0 +1,46 @@
+import numpy as np
+import time
+
+# 초기 상태 설정
+initial_velocity = 0  # 초기 속도 (m/s)
+initial_heading = np.deg2rad(90)  # 초기 주행 방향 (라디안)
+
+# 차량 제어 함수
+def control_vehicle(velocity, heading):
+    # 여기에 차량의 제어 알고리즘을 구현합니다.
+    # 간단히 예를 들면, 주어진 속도와 주행 방향을 유지하는 PID 제어를 시뮬레이션합니다.
+    target_velocity = 10  # 목표 속도 (m/s)
+    target_heading = np.deg2rad(90)  # 목표 주행 방향 (라디안)
+    
+    # 간단한 PID 제어를 사용하여 제어 입력 계산
+    velocity_error = target_velocity - velocity
+    heading_error = target_heading - heading
+    
+    # 제어 입력 계산 (간단히 PID 제어 값으로 설정)
+    acceleration = velocity_error * 0.1  # 비례 제어
+    steering_angle = heading_error * 0.1  # 비례 제어
+    
+    return acceleration, steering_angle
+
+# 주행 시뮬레이션 함수
+def simulate_drive(initial_velocity, initial_heading):
+    velocity = initial_velocity
+    heading = initial_heading
+
+    # 시뮬레이션 루프
+    while True:
+        # 차량 제어 입력 계산
+        acceleration, steering_angle = control_vehicle(velocity, heading)
+        
+        # 제어 입력을 사용하여 차량 상태 업데이트
+        velocity += acceleration
+        heading += steering_angle
+        
+        # 결과 출력
+        print(f"Velocity: {velocity}, Heading: {np.rad2deg(heading)}")
+
+        # 잠시 대기 (실제 차량의 주행 시간 간격을 대체하기 위함)
+        time.sleep(1)
+
+# 주행 시뮬레이션 실행
+simulate_drive(initial_velocity, initial_heading)
