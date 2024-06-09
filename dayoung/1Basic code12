@@ -1,0 +1,7 @@
+x = 10
+print("x is %d" % x)
+
+y = "code"
+print("y is %s" % y)
+
+print("x is %d and y is %s" % (x, y))
