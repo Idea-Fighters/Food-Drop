@@ -1,0 +1,59 @@
+import random
+
+class Character:
+    def __init__(self, name, hp, attack):
+        self.name = name
+        self.hp = hp
+        self.attack = attack
+
+    def is_alive(self):
+        return self.hp > 0
+
+    def take_damage(self, damage):
+        self.hp -= damage
+        if self.hp < 0:
+            self.hp = 0
+
+    def attack_target(self, target):
+        damage = random.randint(1, self.attack)
+        print(f"{self.name} attacks {target.name} for {damage} damage.")
+        target.take_damage(damage)
+
+def battle(players, enemies):
+    print("A group of enemies appears!")
+
+    while any(player.is_alive() for player in players) and any(enemy.is_alive() for enemy in enemies):
+        for player in players:
+            if player.is_alive():
+                print(f"\n{player.name}: {player.hp} HP")
+                print("1. Attack")
+                choice = input("Enter your choice: ")
+                if choice == "1":
+                    target = random.choice(enemies)
+                    player.attack_target(target)
+                    if not target.is_alive():
+                        enemies.remove(target)
+                if not enemies:
+                    break
+        for enemy in enemies:
+            if enemy.is_alive():
+                target = random.choice(players)
+                enemy.attack_target(target)
+                if not target.is_alive():
+                    players.remove(target)
+                if not players:
+                    break
+
+    if players:
+        print("You defeated all enemies!")
+    else:
+        print("You were defeated!")
+
+# 플레이어와 적 생성
+player1 = Character("Hero1", 100, 20)
+player2 = Character("Hero2", 100, 20)
+enemy1 = Character("Goblin1", 50, 10)
+enemy2 = Character("Goblin2", 50, 10)
+
+# 전투 시작
+battle([player1, player2], [enemy1, enemy2])
