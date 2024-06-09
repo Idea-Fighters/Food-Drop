@@ -1,0 +1,28 @@
+import carla
+import random
+import time
+
+# CARLA 시뮬레이션을 초기화합니다.
+client = carla.Client('localhost', 2000)
+client.set_timeout(2.0)
+
+# 월드를 로드합니다.
+world = client.get_world()
+
+# 차량 블루프린트를 가져옵니다.
+blueprint_library = world.get_blueprint_library()
+vehicle_bp = blueprint_library.filter('vehicle.tesla.model3')[0]
+
+# 무작위 위치에 차량을 생성합니다.
+transform = random.choice(world.get_map().get_spawn_points())
+vehicle = world.spawn_actor(vehicle_bp, transform)
+
+try:
+    # 차량을 전진시키는 루프를 실행합니다.
+    while True:
+        vehicle.apply_control(carla.VehicleControl(throttle=1.0, steer=0.0))
+        time.sleep(1)
+
+finally:
+    # 시뮬레이션을 종료합니다.
+    vehicle.destroy()
