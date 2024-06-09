@@ -1,7 +1,0 @@
-# my_module.py
-def greet(name):
-    return f"Hello, {name}!"
-
-# main.py
-import my_module
-print(my_module.greet("World"))
