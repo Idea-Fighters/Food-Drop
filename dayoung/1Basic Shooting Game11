@@ -1,0 +1,28 @@
+import random
+
+def play_double_shot_shooting_game():
+    print("Welcome to the Double Shot Shooting Game!")
+    print("Shoot two bullets at once to hit the target.")
+
+    target_row = random.randint(1, 10)
+    target_col = random.randint(1, 10)
+
+    attempts = 0
+    while True:
+        user_input_row1 = int(input("Enter the row number for the first bullet (1-10): "))
+        user_input_col1 = int(input("Enter the column number for the first bullet (1-10): "))
+        user_input_row2 = int(input("Enter the row number for the second bullet (1-10): "))
+        user_input_col2 = int(input("Enter the column number for the second bullet (1-10): "))
+        attempts += 1
+
+        if (user_input_row1 == target_row and user_input_col1 == target_col) or \
+           (user_input_row2 == target_row and user_input_col2 == target_col):
+            print("Congratulations! You hit the target!")
+            break
+        else:
+            print("Miss! Try again.")
+
+    print(f"Number of attempts: {attempts}")
+
+# 게임 실행 (이중 총알 발사)
+play_double_shot_shooting_game()
