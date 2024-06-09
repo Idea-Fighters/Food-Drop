@@ -1,0 +1,7 @@
+import math
+
+f = open('score.txt','r')
+line = f.readline()
+a= list(map(int,line.split(',')))
+sum1, avg1 =math.ceil(sum(a)), round(sum(a)/len(a),2)
+print("합계는", sum1, "평균은", avg1, "입니다.")
