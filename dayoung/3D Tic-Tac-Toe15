@@ -1,0 +1,53 @@
+import numpy as np
+
+def check_winner(board):
+    for i in range(board.shape[0]):
+        if np.all(board[i,:,:] == board[i,0,0]) and board[i,0,0] != 0:
+            return board[i,0,0]
+        if np.all(board[:,i,:] == board[0,i,0]) and board[0,i,0] != 0:
+            return board[0,i,0]
+        if np.all(board[:,:,i] == board[0,0,i]) and board[0,0,i] != 0:
+            return board[0,0,i]
+
+    for axis in range(3):
+        for i in range(board.shape[0]):
+            if np.all(board.take(i, axis=axis) == board.take(i, axis=axis)[0, 0]) and board.take(i, axis=axis)[0, 0] != 0:
+                return board.take(i, axis=axis)[0, 0]
+
+    if np.all(np.diagonal(board) == board[0,0,0]) and board[0,0,0] != 0:
+        return board[0,0,0]
+    if np.all(np.diagonal(np.fliplr(board)) == board[0,board.shape[0]-1,0]) and board[0,board.shape[0]-1,0] != 0:
+        return board[0,board.shape[0]-1,0]
+
+    return 0
+
+def print_board(board):
+    for layer in board:
+        print(layer)
+        print()
+
+def play_game():
+    level = 3
+    while level <= 5:  # Game starts with 3x3x3 board and increases size
+        print(f"Starting Level {level-2}")
+        board = np.zeros((level, level, level), dtype=int)
+        player = 1
+        while True:
+            print_board(board)
+            x, y, z = map(int, input(f"Player {player}, enter your move (x y z): ").split())
+            if board[x, y, z] != 0:
+                print("Invalid move! Try again.")
+                continue
+            board[x, y, z] = player
+            winner = check_winner(board)
+            if winner != 0:
+                print_board(board)
+                print(f"Player {winner} wins Level {level-2}!")
+                level += 1
+                break
+            player = 3 - player
+        if level > 5:
+            print("Congratulations! You've completed all levels.")
+            break
+
+play_game()
