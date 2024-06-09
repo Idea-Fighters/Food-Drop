@@ -1,0 +1,48 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import time
+
+# 데이터 모니터링 함수
+def monitor_data():
+    fig, ax = plt.subplots()
+    x = []
+    y = []
+
+    ax.set_xlabel('Time (s)')
+    ax.set_ylabel('Speed (m/s)')
+    ax.set_title('Real-time Speed Monitoring')
+
+    line, = ax.plot(x, y, 'b-')
+
+    try:
+        while True:
+            # 여기서는 임의의 데이터 생성
+            speed = np.random.uniform(0, 10)
+            timestamp = time.time()
+            
+            # x와 y 데이터 업데이트
+            x.append(timestamp)
+            y.append(speed)
+
+            # 최근 10개 데이터만 표시
+            if len(x) > 10:
+                x = x[-10:]
+                y = y[-10:]
+
+            line.set_xdata(x)
+            line.set_ydata(y)
+
+            ax.relim()
+            ax.autoscale_view()
+
+            fig.canvas.draw()
+            fig.canvas.flush_events()
+
+            time.sleep(1)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        plt.close()
+
+if __name__ == '__main__':
+    monitor_data()
