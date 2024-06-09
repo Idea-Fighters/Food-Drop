@@ -1,0 +1,24 @@
+import numpy as np
+import time
+
+# 센서 데이터 수집 및 장애물 감지
+def detect_obstacles():
+    try:
+        while True:
+            # 여기서는 임의의 센서 데이터를 생성하고 장애물을 감지하는 코드를 작성합니다.
+            # 실제로는 차량에서 센서 데이터를 읽어와야 합니다.
+            # 예를 들어, LiDAR, 초음파 센서, 카메라 등의 센서를 사용하여 주변 환경을 모니터링할 수 있습니다.
+            
+            # 임의의 센서 데이터 생성 (예: 거리)
+            distance_to_obstacle = np.random.uniform(0, 5)  # 임의의 거리 데이터 생성
+            
+            # 장애물 감지 로직
+            if distance_to_obstacle < 1.0:  # 장애물과의 거리가 1미터 미만인 경우
+                print("Obstacle detected! Slow down or change direction.")
+            
+            time.sleep(1)  # 1초마다 센서 데이터 수집 및 장애물 감지
+    except KeyboardInterrupt:
+        pass
+
+if __name__ == '__main__':
+    detect_obstacles()
