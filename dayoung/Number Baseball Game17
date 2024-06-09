@@ -1,0 +1,31 @@
+import random
+import string
+
+def generate_number():
+    characters = list(string.digits + string.ascii_lowercase)
+    random.shuffle(characters)
+    return characters[:3]
+
+def evaluate_guess(secret, guess):
+    strikes = sum(1 for i in range(3) if secret[i] == guess[i])
+    balls = sum(1 for i in range(3) if secret[i] != guess[i] and guess[i] in secret)
+    return strikes, balls
+
+def alphanumeric_number_baseball_game():
+    secret = generate_number()
+    attempts = 0
+
+    while True:
+        guess = input("숫자와 문자를 입력하세요 (예: 1a3): ").strip()
+        guess = [x for x in guess]
+        attempts += 1
+
+        strikes, balls = evaluate_guess(secret, guess)
+        print(f"{strikes} 스트라이크, {balls} 볼")
+
+        if strikes == 3:
+            print(f"축하합니다! {attempts}번 만에 맞췄습니다.")
+            break
+
+alphanumeric_number_baseball_game()
+
