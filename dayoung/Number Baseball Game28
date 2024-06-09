@@ -1,0 +1,57 @@
+from random import randint
+
+def generate_numbers():
+    numbers = []
+    while len(numbers) < 3:  # 리스트의 요소가 3개 미만일 동안 반복
+        num = randint(0,9)
+        if num not in numbers:  # 중복값을 없애기 위해 중복이 아닐때만 리스트에 추가하기
+            numbers.append(num)
+    return numbers
+
+print(generate_numbers())
+
+def take_guess():
+    print("숫자 3개를 하나씩 차례로 입력하세요.")
+    guess =[]
+    while len(guess) < 3:  # 리스트에 요소 3개가 추가될때까지 반복
+        num = int(input(f"{len(guess) + 1}번째 수를 입력하세요. : ")) # 수 입력받아 num에 저장
+        if num < 0 or num >9:  # 입력받은 수가 범위에서 벗어날 떄
+            print("범위에서 벗어나는 숫자입니다. 다시 입력하세요.")
+        elif num in guess:  # 중복되는 수 일때
+            print("중복되는 숫자입니다. 다시 입력하세요.")
+        else:
+            guess.append(num)
+    return guess
+
+print(take_guess())
+
+def get_score(guesses, solution):
+    strike = 0
+    ball = 0
+    for i in range(3):
+        if guesses[i] == solution[i]:  # 만약 숫자와 자리 모두 같을 때
+            strike += 1
+        elif guesses[i] in solution: # 일치하는 숫자가 있을 때
+            ball += 1
+    return strike, ball  # 스트라이크와 볼 두 개의 값을 반환
+
+s_1, b_1 = get_score([2, 7, 4], [2, 4, 7])
+print(s_1, b_1)
+
+s_2, b_2 = get_score([7, 2, 4], [2, 4, 7])
+print(s_2, b_2)
+
+answers = generate_numbers()
+attempts = 0
+s = 0
+
+print("0과 9 사이의 서로 다른 숫자의 3개의 랜덤한 숫자를 뽑았습니다.")
+
+while s < 3: # 3 스트라이크가 나올 때까지
+    attempts += 1
+    guesses = take_guess()  # 입력한 값 리스트를 guess에 저장
+    s, b = get_score(guesses, answers)  # 스트라이크, 볼을 s, b에 저장
+    print(f"{s}S {b}B")
+
+print(f"축하합니다. {attempts}번 만에 숫자 3개의 값과 위치를 모두 맞추셨습니다.")
+
