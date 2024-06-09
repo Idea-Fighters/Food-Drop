@@ -1,0 +1,27 @@
+import random
+import time
+
+def play_typing_game(words, duration):
+    print("Welcome to the Typing Game!")
+    print("Type the words as fast as you can.")
+    input("Press Enter to start...")
+
+    start_time = time.time()
+    while time.time() - start_time < duration:
+        word = random.choice(words)
+        print(word)
+        user_input = input("Type the word: ")
+        if user_input.strip().lower() == word.lower():
+            print("Correct!")
+        else:
+            print("Incorrect!")
+    
+    print("Time's up!")
+
+# 단어 목록과 게임 시간 설정
+word_list = ["apple", "banana", "orange", "grape", "pineapple"]
+game_duration = 30  # 30초 동안 진행
+
+# 게임 실행
+play_typing_game(word_list, game_duration)
+
