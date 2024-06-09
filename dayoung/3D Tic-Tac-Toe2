@@ -1,0 +1,63 @@
+class TicTacToe3D:
+    def __init__(self):
+        self.board = [[[None for _ in range(4)] for _ in range(4)] for _ in range(4)]
+        self.current_player = 'X'
+
+    def display_board(self):
+        for z in range(4):
+            print(f"Level {z+1}:")
+            for y in range(4):
+                print(' | '.join(self.board[z][y][x] if self.board[z][y][x] else '.' for x in range(4)))
+            print()
+
+    def make_move(self, x, y, z):
+        if self.board[z][y][x] is None:
+            self.board[z][y][x] = self.current_player
+            if self.check_winner(x, y, z):
+                self.display_board()
+                print(f"Player {self.current_player} wins!")
+                return True
+            self.current_player = 'O' if self.current_player == 'X' else 'X'
+            return False
+        else:
+            print("Invalid move. Try again.")
+            return False
+
+    def check_winner(self, x, y, z):
+        # Check the win conditions in 4x4x4 Tic-Tac-Toe
+        directions = [
+            [(1, 0, 0), (-1, 0, 0)],  # x-axis
+            [(0, 1, 0), (0, -1, 0)],  # y-axis
+            [(0, 0, 1), (0, 0, -1)],  # z-axis
+            [(1, 1, 0), (-1, -1, 0)], [(1, -1, 0), (-1, 1, 0)],  # xy-plane
+            [(1, 0, 1), (-1, 0, -1)], [(1, 0, -1), (-1, 0, 1)],  # xz-plane
+            [(0, 1, 1), (0, -1, -1)], [(0, 1, -1), (0, -1, 1)],  # yz-plane
+            [(1, 1, 1), (-1, -1, -1)], [(1, 1, -1), (-1, -1, 1)],  # xyz-diagonals
+            [(1, -1, 1), (-1, 1, -1)], [(1, -1, -1), (-1, 1, 1)]
+        ]
+
+        for direction in directions:
+            count = 1
+            for d in direction:
+                nx, ny, nz = x + d[0], y + d[1], z + d[2]
+                while 0 <= nx < 4 and 0 <= ny < 4 and 0 <= nz < 4 and self.board[nz][ny][nx] == self.current_player:
+                    count += 1
+                    nx += d[0]
+                    ny += d[1]
+                    nz += d[2]
+                if count >= 4:
+                    return True
+        return False
+
+def play_game():
+    game = TicTacToe3D()
+    game.display_board()
+    while True:
+        move = input("Enter your move (x y z): ").split()
+        x, y, z = map(int, move)
+        if game.make_move(x, y, z):
+            break
+        game.display_board()
+
+play_game()
+
