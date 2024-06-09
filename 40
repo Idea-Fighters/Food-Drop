@@ -1,0 +1,8 @@
+# 새 터미널 창을 열고 ROS를 실행합니다.
+roscore
+
+# 새 터미널 창을 열고 Gazebo 시뮬레이터를 실행합니다.
+roslaunch turtlebot3_gazebo turtlebot3_world.launch
+
+# 새 터미널 창을 열고 네비게이션 스택을 실행합니다.
+roslaunch turtlebot3_navigation turtlebot3_navigation.launch map_file:=$HOME/map.yaml
