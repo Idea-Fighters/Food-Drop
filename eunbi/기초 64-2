@@ -1,5 +1,0 @@
-a, b, c = input().split()
-a = int(a)
-b = int(b)
-c = int(c)
-print(int((b if b<c else c) if a>b else (a if a<c else c)))
