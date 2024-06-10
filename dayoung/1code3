@@ -1,0 +1,2 @@
+email = input("이메일을 입력하세요: ")
+print(f"도메인은 {email.split('@')[1]}입니다.")
