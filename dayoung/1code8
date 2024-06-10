@@ -1,2 +1,0 @@
-char = input("문자를 입력하세요: ")
-print(f"{char}의 아스키 코드값은 {ord(char)}입니다.")
