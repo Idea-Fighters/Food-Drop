@@ -1,7 +1,0 @@
-def calculate_needed_pieces(white_pieces):
-    correct_pieces = [1, 1, 2, 2, 2, 8]
-    return [correct_pieces[i] - white_pieces[i] for i in range(6)]
-
-white_pieces = list(map(int, input().split()))
-needed_pieces = calculate_needed_pieces(white_pieces)
-print(*needed_pieces)
