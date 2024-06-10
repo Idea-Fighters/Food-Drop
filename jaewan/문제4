@@ -1,0 +1,6 @@
+a=input()
+[a]
+b=a[0]
+c=a[2]
+print(b)
+print(c)
