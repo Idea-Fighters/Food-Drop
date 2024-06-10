@@ -1,2 +1,0 @@
-word = input("단어를 입력하세요: ")
-print(f"단어의 글자 수는 {len(word)}개입니다.")
