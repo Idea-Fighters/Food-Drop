@@ -1,0 +1,8 @@
+a=input()
+b=input()
+a=a.split()
+b=b.split()
+c=int(a[1])
+d=int(b[1])
+e=c+d
+print(a[0],'age','+',b[0],'age','=',e)
