@@ -1,5 +1,0 @@
-import pandas as pd
-
-data = {'Name': ['Tom', 'Jerry', 'Spike'], 'Age': [10, 12, 11]}
-df = pd.DataFrame(data)
-print(df)
