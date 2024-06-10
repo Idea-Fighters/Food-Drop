@@ -1,6 +1,0 @@
-a=input()
-a=a.split()
-print(a[0],'like',a[1])
-print(a[0],'like',a[1])
-print(a[0],'like',a[1])
-print(a[0],'like',a[1])
