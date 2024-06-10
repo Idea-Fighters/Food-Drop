@@ -1,8 +1,0 @@
-# 두 도메인의 유명도 입력 받기
-N, M = map(int, input().split())
-
-# 두 유명도의 차이 계산하기
-difference = abs(N - M)
-
-# 결과 출력
-print(difference)
