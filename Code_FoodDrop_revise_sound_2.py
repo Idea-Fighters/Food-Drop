@@ -16,14 +16,22 @@ screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 
 # 이미지 로드 및 크기 조정
-airplane = pygame.image.load('images/plane.png')
-airplane = pygame.transform.scale(airplane, (60, 45))
+player = pygame.image.load('images/CAT.png')
+player = pygame.transform.scale(player, (70, 95))
 apple = pygame.image.load('images/apple.png')
-apple = pygame.transform.scale(apple, (30, 30))
+apple = pygame.transform.scale(apple, (80, 80))
+peach = pygame.image.load('images/peach.png')
+peach = pygame.transform.scale(peach, (80, 80))
+banana = pygame.image.load('images/banana.png')
+banana = pygame.transform.scale(banana, (80, 80))
+grape = pygame.image.load('images/grape.png')
+grape = pygame.transform.scale(grape, (80, 80))
+strawberry = pygame.image.load('images/strawberry.png')
+strawberry = pygame.transform.scale(strawberry, (80, 80))
 bomb = pygame.image.load('images/bomb.png')
-bomb = pygame.transform.scale(bomb, (30, 30))
+bomb = pygame.transform.scale(bomb, (90, 90))
 heart = pygame.image.load('images/heart.png')
-heart = pygame.transform.scale(heart, (30, 30))
+heart = pygame.transform.scale(heart, (40, 40))
 
 # 배경 이미지 로드 및 크기 조정
 background = pygame.image.load('images/background.png')
@@ -32,7 +40,12 @@ background = pygame.transform.scale(background, size)
 # 배경음악 사운드
 pygame.mixer.music.load('sounds/Bg_music.wav')
 eat_apple = pygame.mixer.Sound('sounds/up.wav')
+eat_grape = pygame.mixer.Sound('sounds/up.wav')
+eat_peach = pygame.mixer.Sound('sounds/up.wav')
+eat_banana = pygame.mixer.Sound('sounds/up.wav')
+eat_strawberry = pygame.mixer.Sound('sounds/up.wav')
 hit_poop = pygame.mixer.Sound('sounds/poop.wav')
+end = pygame.mixer.Sound('sounds/end.wav')
 
 # 폰트 설정
 font = pygame.font.SysFont(None, 36)
@@ -60,7 +73,7 @@ class Obstacle:
 def runGame():
     pygame.mixer.music.play(-1)# 음악 무한루프
     x = 20
-    y = size[1] - 45
+    y = size[1] - 90
     speed = 5
     score = 0
     lives = 3
@@ -69,8 +82,8 @@ def runGame():
     # 장애물 리스트 생성
     obstacles = []
     for i in range(5):
-        obstacle_type = random.choice([apple, bomb, heart])
-        obstacle = Obstacle(random.randint(0, size[0] - 30), -30, obstacle_type, random.randint(3, 6))
+        obstacle_type = random.choice([apple,grape,banana,peach, strawberry, bomb, heart])
+        obstacle = Obstacle(random.randint(0, size[0] - 30), -30, obstacle_type, random.randint(7, 20))
         obstacles.append(obstacle)
 
     done = False
@@ -108,10 +121,26 @@ def runGame():
                 obstacle.reset_pos()
 
             if x < obstacle.x < x + 60 and y < obstacle.y < y + 45:
-                if obstacle.image == apple:
+                if obstacle.image == grape:
                     score += 10
-                    eat_apple.play()  # 사과를 먹을 때 소리 재생
+                    eat_grape.play()  # 포도를 먹을 때 소리 재생
                     obstacle.reset_pos()
+                if obstacle.image == apple:
+                    score += 15
+                    eat_apple.play()  # 사과를 먹을 때 소리 재생
+                    obstacle.reset_pos()                    
+                if obstacle.image == peach:
+                    score += 20
+                    eat_peach.play()  # 복숭아를 먹을 때 소리 재생
+                    obstacle.reset_pos()                    
+                if obstacle.image == banana:
+                    score += 25
+                    eat_banana.play()  # 바나나를 먹을 때 소리 재생
+                    obstacle.reset_pos()          
+                if obstacle.image == strawberry:
+                    score += 30
+                    eat_strawberry.play()  # 바나나를 먹을 때 소리 재생
+                    obstacle.reset_pos()                         
                 elif obstacle.image == bomb:
                     lives -= 1
                     hit_poop.play() #똥 먹음 사운드
@@ -126,7 +155,7 @@ def runGame():
 
             obstacle.draw()
 
-        screen.blit(airplane, (x, y))
+        screen.blit(player, (x, y))
 
         score_text = font.render(f'Score: {score}', True, BLACK)
         screen.blit(score_text, (10, 10))
@@ -141,6 +170,7 @@ def runGame():
         pygame.display.update()
         
     pygame.mixer.music.stop() #게임 끝나면 음악 종료
+    end.play() #죽으면 브금
     show_game_over_screen(score)
 
 def show_game_over_screen(score):
