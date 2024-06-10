@@ -1,4 +1,0 @@
-dummy = "toy"
-temp = 3.141592653
-print(type(dummy))  # <class 'str'>
-print(type(temp))  # <class 'float'>
