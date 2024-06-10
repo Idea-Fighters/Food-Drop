@@ -1,8 +1,0 @@
-a = 11
-b = 11.11
-c = '안녕'
-
-print(type(123)) #123
-print(type(a)) #a
-print(type(b)) #b
-print(type(c)) #c
