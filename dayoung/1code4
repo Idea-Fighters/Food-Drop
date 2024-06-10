@@ -1,3 +1,0 @@
-
-fahrenheit = float(input("화씨 온도를 입력하세요: "))
-print(f"섭씨 온도는 {(fahrenheit - 32) * 5/9}도입니다.")
