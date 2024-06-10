@@ -1,0 +1,2 @@
+celsius = float(input("섭씨 온도를 입력하세요: "))
+print(f"화씨 온도는 {celsius * 9/5 + 32}도입니다.")
