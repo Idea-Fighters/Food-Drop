@@ -1,0 +1,2 @@
+sentence = input("문장을 입력하세요: ")
+print(f"단어 수는 {len(sentence.split())}개입니다.")
