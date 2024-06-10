@@ -1,3 +1,0 @@
-str1 = input("첫 번째 문자열을 입력하세요: ")
-str2 = input("두 번째 문자열을 입력하세요: ")
-print(f"더 긴 문자열은 {'첫 번째' if len(str1) > len(str2) else '두 번째'}입니다.")
