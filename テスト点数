@@ -1,0 +1,36 @@
+public class Student
+{
+    String name;
+    int engScore;
+    int mathScore;
+    
+    void display(){
+        System.out.println(name + "さん");
+        System.out.println("英語" + engScore + "点。点数" + mathScore + "点");
+    }
+    
+    void setScore(int eng, int math){
+        engScore = eng;
+        mathScore = math;
+    }
+    
+    double getAvg(){
+        double avg = (engScore + mathScore) / 2.0;
+        return avg;
+    }
+}
+
+
+
+public class StuSample
+{
+    public static void main(String[] args){
+        Student stul = new Student();
+        
+        stul.name = "安達";
+        stul.setScore(90, 80);
+        
+        stul.display();
+    }
+}
+
