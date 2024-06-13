@@ -1,0 +1,39 @@
+public class Coloerpoint extends point
+{
+    private String color;
+    
+    public Coloerpoint(int x, int y, String color){
+        //super(x, y);
+        super();
+        this.set(x, y);
+        this.color = color;
+    }
+    public void setColor(String color){
+        this.color = color;
+    }
+    public void showColorPoint(){
+        showPoint();
+        System.out.print(this.color);
+    }
+}
+
+
+public class point
+{
+    private int x;
+    private int y;
+    
+    public point(){
+        this.x = 0;
+        this.y = 0;
+    }
+    
+    public void set(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+    
+    public void showPoint(){
+        System.out.println("(" + this.x + ", " + this.y + ")");
+    }
+}
